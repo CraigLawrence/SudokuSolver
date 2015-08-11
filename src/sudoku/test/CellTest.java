@@ -47,6 +47,15 @@ public class CellTest {
 		assertTrue(c.wasDefinedAtStart());
 	}
 	
+	// Test new value
+	@Test
+	public void NewValueTest() {
+		Cell c = new Cell('0', false);
+		assertTrue(c.getValue() == '0');
+		c.changeValue('5');
+		assertTrue(c.getValue() == '5');
+	}
+	
 	
 	// Test possible values
 	@Test

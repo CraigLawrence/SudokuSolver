@@ -1,11 +1,13 @@
 package sudoku.model;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-public class Cell {
+@SuppressWarnings("serial")
+public class Cell implements Serializable{
 	
 	/*
 	 * Attributes
@@ -33,6 +35,10 @@ public class Cell {
 	
 	public char getValue() {
 		return value;
+	}
+	
+	public void changeValue(char newVal) {
+		value = newVal;
 	}
 	
 	public boolean wasDefinedAtStart() {

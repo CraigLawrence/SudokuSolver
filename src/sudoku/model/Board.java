@@ -1,5 +1,10 @@
 package sudoku.model;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -10,7 +15,8 @@ import sudoku.IO.SudokuInput;
 import sudoku.IO.SudokuInput.SudokuInputReadException;
 import sudoku.model.CellGroup.CellGroupException;
 
-public class Board {
+@SuppressWarnings("serial")
+public class Board implements Serializable {
 	
 	/*
 	 * Attributes
@@ -21,8 +27,7 @@ public class Board {
 	
 	/*
 	 * Constructors
-	 */
-	
+	 */	
 	public Board(SudokuInput si) throws BoardCreationException{
 		this(si, 9);
 	}
@@ -87,6 +92,21 @@ public class Board {
 	
 	public Map<String, CellGroup> getCellGroups() {
 		return cellGroups;
+	}
+	
+	public Board copyBoard(){
+		try {
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			ObjectOutputStream oos = new ObjectOutputStream(baos);
+			oos.writeObject(this);
+			
+			ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+			ObjectInputStream ois = new ObjectInputStream(bais);
+			return (Board) ois.readObject();
+		} catch (Exception e) {
+			//TODO: handle problems
+		}
+		return null;
 	}
 	
 	/*
