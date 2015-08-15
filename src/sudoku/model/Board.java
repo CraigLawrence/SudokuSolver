@@ -109,6 +109,20 @@ public class Board implements Serializable {
 		return null;
 	}
 	
+	public Validity isValid(){
+		int CompleteGroups = 0;
+		for (CellGroup cg : cellGroups.values()) {
+			Validity thisCG = cg.isValid();
+			if (thisCG == Validity.INVALID) {
+				return Validity.INVALID;
+			}
+			else if (thisCG == Validity.VALID_COMPLETE) {
+				CompleteGroups++;
+			}
+		}
+		return (CompleteGroups == cellGroups.size()) ? Validity.VALID_COMPLETE : Validity.VALID_INCOMPLETE;
+	}
+	
 	/*
 	 * Exceptions
 	 */
