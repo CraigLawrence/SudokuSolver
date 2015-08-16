@@ -23,7 +23,7 @@ public class IOTest {
 	public void successfulFileOpen() {
 		SudokuInput si = null;
 		try {
-			si = new BasicTextInput("test1.txt");
+			si = new BasicTextInput("test1Blank.txt");
 		} catch (SudokuInputReadException e) {
 			si = null;
 		}
@@ -46,7 +46,7 @@ public class IOTest {
 	public void basicBoardConstruction() {
 		SudokuInput si = null;
 		try {
-			si = new BasicTextInput("test1.txt");
+			si = new BasicTextInput("test1Blank.txt");
 		} catch (SudokuInputReadException e) {
 			si = null;
 		}
@@ -58,7 +58,7 @@ public class IOTest {
 			e.printStackTrace();
 		}
 		
-		SudokuOutput so = new TestOutput("test1.txt");
+		SudokuOutput so = new TestOutput("test1Blank.txt");
 		so.outputBoard(b);
 		
 	}

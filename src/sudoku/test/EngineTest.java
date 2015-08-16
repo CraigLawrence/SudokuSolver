@@ -14,7 +14,7 @@ public class EngineTest {
 
 	@Test
 	public void test() throws BoardCreationException, SudokuInputReadException {
-		Board b = new Board(new BasicTextInput("test1.txt"), 9);
+		Board b = new Board(new BasicTextInput("test1Blank.txt"), 9);
 		Engine e = new EngineV1();
 		e.solve(b);
 	}
