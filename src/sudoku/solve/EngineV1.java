@@ -11,11 +11,13 @@ import sudoku.model.Validity;
 public class EngineV1 implements Engine {
 	
 	private final ExecutorService boardPool;
+	private final Solution solution;
 	
 	public EngineV1() {
 		// Setup pool
 		System.out.print("Setting up...");
 		boardPool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+		solution = new Solution();
 		System.out.println("Done");
 	}
 
@@ -29,10 +31,12 @@ public class EngineV1 implements Engine {
 		System.out.println("Working...");
 		
 		// Wait for result or for pool to exhaust
+		solution.startWaiting();
 		
 		// Return result
+		return solution.getSolution();
 		
-		return null;
+		// TODO: some timeout
 	}
 	
 	class SolveHandler implements Runnable {
@@ -52,6 +56,7 @@ public class EngineV1 implements Engine {
 				break;
 			case VALID_COMPLETE:
 				// If valid and complete, offer as solution to pool and terminate
+				solution.setSolution(board);
 				break;
 			case VALID_INCOMPLETE:
 				// If valid and incomplete, start executing strategies
@@ -68,11 +73,41 @@ public class EngineV1 implements Engine {
 						}
 					}
 				}
-				// If not succeed, terminate
 				break;
+				
 			default:
 				break;
 			}		
+		}
+		
+	}
+	
+	class Solution {
+		
+		private Board finalBoard;
+		private Object lock = new Object();
+		
+		public void startWaiting() {
+			synchronized(lock){
+				try {
+					lock.wait();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		public void setSolution(Board board){
+			synchronized(lock){
+				finalBoard = board;
+				lock.notify();
+			}
+		}
+		
+		public Board getSolution(){
+			synchronized(lock){
+				return finalBoard;
+			}
 		}
 		
 	}
