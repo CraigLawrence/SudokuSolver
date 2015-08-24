@@ -24,6 +24,7 @@ public class Board implements Serializable {
 
 	private Map<String, CellGroup> cellGroups;
 	private Set<Character> numberSet;
+	private char emptyValue;
 	
 	/*
 	 * Constructors
@@ -35,6 +36,7 @@ public class Board implements Serializable {
 	public Board(SudokuInput si, int size) throws BoardCreationException {
 		cellGroups = new HashMap<String, CellGroup>();
 		numberSet = new HashSet<Character>(Arrays.asList('1','2','3','4','5','6','7','8','9'));
+		emptyValue = '0';
 		
 		// TODO: Generalise this code, remove magic numbers
 		try {
@@ -47,7 +49,7 @@ public class Board implements Serializable {
 				String[] types = {"row", "col", "quad"};
 				for (String t : types) {
 					for (Integer i=0; i<9; i++) {
-						CellGroup cg = new CellGroup(numberSet);
+						CellGroup cg = new CellGroup(numberSet, emptyValue);
 						cellGroups.put(t + i.toString() , cg);
 					}
 				}
@@ -92,6 +94,10 @@ public class Board implements Serializable {
 	
 	public Map<String, CellGroup> getCellGroups() {
 		return cellGroups;
+	}
+	
+	public char getEmptyValue() {
+		return emptyValue;
 	}
 	
 	public Board copyBoard(){

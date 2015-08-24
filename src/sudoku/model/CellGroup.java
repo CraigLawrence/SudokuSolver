@@ -15,16 +15,18 @@ public class CellGroup implements Serializable {
 	
 	private List<Cell> cells;
 	private Set<Character> numberSet;
+	private char emptyValue;
 	
 	/*
 	 * Constructor
 	 */
 	
-	public CellGroup(Set<Character> numberSet) throws CellGroupException {
+	public CellGroup(Set<Character> numberSet, char emptyValue) throws CellGroupException {
 		if (numberSet ==  null)
 			throw new CellGroupException("Number set provided was null");
 		cells = new ArrayList<Cell>();
 		this.numberSet = numberSet;
+		this.emptyValue = emptyValue;
 	}
 	
 	/*
@@ -42,7 +44,7 @@ public class CellGroup implements Serializable {
 			int value = c.getValue();
 			
 			// Check if already present in group
-			if (ascii[value] && value != '0')
+			if (ascii[value] && value != emptyValue)
 				return Validity.INVALID;
 			
 			// Set as present
@@ -50,7 +52,7 @@ public class CellGroup implements Serializable {
 		}
 		
 		// Check if complete or not (i.e. are there any blanks)
-		if (ascii['0'])
+		if (ascii[emptyValue])
 			return Validity.VALID_INCOMPLETE;
 		else
 			return Validity.VALID_COMPLETE;
@@ -71,7 +73,7 @@ public class CellGroup implements Serializable {
 	}
 	
 	public void addCell(Cell newCell) throws CellGroupException{
-		if (!numberSet.contains(newCell.getValue()) && newCell.getValue() != '0') {
+		if (!numberSet.contains(newCell.getValue()) && newCell.getValue() != emptyValue) {
 			throw new CellGroupException("Illegal cell value: " + newCell.getValue());
 		}
 		cells.add(newCell);
