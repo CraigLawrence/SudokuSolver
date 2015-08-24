@@ -61,9 +61,9 @@ public class CellTest {
 	@Test
 	public void PossibleValues1() throws CellGroupException {
 		Set<Character> numberSet = new HashSet<Character>(Arrays.asList('1','2','3','4','5','6','7','8','9'));
-		CellGroup row = new CellGroup(numberSet);
-		CellGroup col = new CellGroup(numberSet);
-		CellGroup quad = new CellGroup(numberSet);
+		CellGroup row = new CellGroup(numberSet, '0');
+		CellGroup col = new CellGroup(numberSet, '0');
+		CellGroup quad = new CellGroup(numberSet, '0');
 		
 		Cell mainCell = new Cell('0', false, row, col, quad);
 		
@@ -87,9 +87,9 @@ public class CellTest {
 	@Test
 	public void PossibleValues2() throws CellGroupException {
 		Set<Character> numberSet = new HashSet<Character>(Arrays.asList('1','2','3','4','5','6','7','8','9'));
-		CellGroup row = new CellGroup(numberSet);
-		CellGroup col = new CellGroup(numberSet);
-		CellGroup quad = new CellGroup(numberSet);
+		CellGroup row = new CellGroup(numberSet, '0');
+		CellGroup col = new CellGroup(numberSet, '0');
+		CellGroup quad = new CellGroup(numberSet, '0');
 		
 		Cell mainCell = new Cell('0', false, row, col, quad);
 		Cell o1 = new Cell('1', true, col, quad);
@@ -113,9 +113,9 @@ public class CellTest {
 	@Test
 	public void PossibleValues3() throws CellGroupException {
 		Set<Character> numberSet = new HashSet<Character>(Arrays.asList('1','2','3','4','5','6','7','8','9'));
-		CellGroup row = new CellGroup(numberSet);
-		CellGroup col = new CellGroup(numberSet);
-		CellGroup quad = new CellGroup(numberSet);
+		CellGroup row = new CellGroup(numberSet, '0');
+		CellGroup col = new CellGroup(numberSet, '0');
+		CellGroup quad = new CellGroup(numberSet, '0');
 		
 		Cell mainCell = new Cell('0', false, row, col, quad);
 		Cell o1 = new Cell('1', true, col, quad);
@@ -141,9 +141,9 @@ public class CellTest {
 	@Test
 	public void PossibleValues4() throws CellGroupException {
 		Set<Character> numberSet = new HashSet<Character>(Arrays.asList('1','2','3','4','5','6','7','8','9'));
-		CellGroup row = new CellGroup(numberSet);
-		CellGroup col = new CellGroup(numberSet);
-		CellGroup quad = new CellGroup(numberSet);
+		CellGroup row = new CellGroup(numberSet, '0');
+		CellGroup col = new CellGroup(numberSet, '0');
+		CellGroup quad = new CellGroup(numberSet, '0');
 		
 		Cell mainCell = new Cell('0', false, row, col, quad);
 		Cell o1 = new Cell('1', true, col, quad);

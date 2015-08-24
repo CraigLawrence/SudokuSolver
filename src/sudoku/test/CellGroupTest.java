@@ -24,7 +24,7 @@ public class CellGroupTest {
 		Set<Character> numberSet = new HashSet<Character>(Arrays.asList('1','2','3','4','5','6','7','8','9'));
 		
 		try {
-			cg = new CellGroup(numberSet);
+			cg = new CellGroup(numberSet, '0');
 		} catch (Exception e) {
 			cg = null;
 		}
@@ -36,7 +36,7 @@ public class CellGroupTest {
 		CellGroup cg = null;
 		Exception e = null;
 		try {
-			cg = new CellGroup(null);
+			cg = new CellGroup(null, '0');
 		} catch (Exception e1) {
 			e = e1;
 		}
@@ -48,7 +48,7 @@ public class CellGroupTest {
 	@Test
 	public void addOne() throws CellGroupException {		
 		Set<Character> numberSet = new HashSet<Character>(Arrays.asList('1','2','3','4','5','6','7','8','9'));
-		CellGroup cg = new CellGroup(numberSet);
+		CellGroup cg = new CellGroup(numberSet, '0');
 		
 		createGroup(cg, '5');
 		
@@ -59,7 +59,7 @@ public class CellGroupTest {
 	@Test
 	public void addNine() throws CellGroupException {		
 		Set<Character> numberSet = new HashSet<Character>(Arrays.asList('1','2','3','4','5','6','7','8','9'));
-		CellGroup cg = new CellGroup(numberSet);
+		CellGroup cg = new CellGroup(numberSet, '0');
 		
 		createGroup(cg, '1','2','3','4','5','6','7','8','9');
 		
@@ -81,7 +81,7 @@ public class CellGroupTest {
 	@Test
 	public void validCompleteTest() throws CellGroupException {
 		Set<Character> numberSet = new HashSet<Character>(Arrays.asList('1','2','3','4','5','6','7','8','9'));
-		CellGroup cg = new CellGroup(numberSet);
+		CellGroup cg = new CellGroup(numberSet, '0');
 		
 		createGroup(cg, '1','2','3','4','5','6','7','8','9');
 		
@@ -91,7 +91,7 @@ public class CellGroupTest {
 	@Test
 	public void validInCompleteTest() throws CellGroupException {
 		Set<Character> numberSet = new HashSet<Character>(Arrays.asList('1','2','3','4','5','6','7','8','9'));
-		CellGroup cg = new CellGroup(numberSet);
+		CellGroup cg = new CellGroup(numberSet, '0');
 		
 		createGroup(cg, '1','2','3','4','0','6','7','0','9');
 		
@@ -101,7 +101,7 @@ public class CellGroupTest {
 	@Test
 	public void InvalidTest() throws CellGroupException {
 		Set<Character> numberSet = new HashSet<Character>(Arrays.asList('1','2','3','4','5','6','7','8','9'));
-		CellGroup cg = new CellGroup(numberSet);
+		CellGroup cg = new CellGroup(numberSet, '0');
 		
 		createGroup(cg, '1','2','3','4','5','6','7','5','9');
 		
@@ -113,7 +113,7 @@ public class CellGroupTest {
 	@Test
 	public void OneMissingTest() throws CellGroupException {
 		Set<Character> numberSet = new HashSet<Character>(Arrays.asList('1','2','3','4','5','6','7','8','9'));
-		CellGroup cg = new CellGroup(numberSet);
+		CellGroup cg = new CellGroup(numberSet, '0');
 		
 		createGroup(cg, '1','2','3','4','5','6','7','0','9');
 		
@@ -124,7 +124,7 @@ public class CellGroupTest {
 	@Test
 	public void SomeMissingTest() throws CellGroupException {
 		Set<Character> numberSet = new HashSet<Character>(Arrays.asList('1','2','3','4','5','6','7','8','9'));
-		CellGroup cg = new CellGroup(numberSet);
+		CellGroup cg = new CellGroup(numberSet, '0');
 		
 		createGroup(cg, '1','0','0','3','5','6','9','0','7');
 		
@@ -138,7 +138,7 @@ public class CellGroupTest {
 	@Test
 	public void AllMissingTest() throws CellGroupException {
 		Set<Character> numberSet = new HashSet<Character>(Arrays.asList('1','2','3','4','5','6','7','8','9'));
-		CellGroup cg = new CellGroup(numberSet);
+		CellGroup cg = new CellGroup(numberSet, '0');
 		
 		createGroup(cg, '0','0','0','0','0','0','0','0','0');
 		
