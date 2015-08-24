@@ -2,6 +2,8 @@ package sudoku.test;
 
 import static org.junit.Assert.*;
 
+import java.util.Set;
+
 import org.junit.Test;
 
 import sudoku.IO.BasicTextInput;
@@ -10,25 +12,22 @@ import sudoku.IO.SudokuOutput;
 import sudoku.IO.TerminalOutput;
 import sudoku.model.Board;
 import sudoku.model.Board.BoardCreationException;
-import sudoku.solve.*;
+import sudoku.solve.Strategy;
+import sudoku.solve.StrategyOnePossibleValue;
 
-public class EngineTest {
-
-	@Test
-	public void SanityTest() throws BoardCreationException, SudokuInputReadException {
-		Engine e = new EngineV1();
-		assertNotNull(e);
-	}
+public class StrategyTest {
 	
+	// TODO: create output class to test against gold file
+
 	@Test
-	public void FileTest5() throws BoardCreationException, SudokuInputReadException {
+	public void OnePossibleValueTest1() throws BoardCreationException, SudokuInputReadException {
 		Board b = new Board(new BasicTextInput("test5OnePossValueTest.txt"), 9);
-		Engine e = new EngineV1();
-		Board solution = e.solve(b);
+		Strategy s = new StrategyOnePossibleValue();
+		Set<Board> result = s.apply(b);
+		assertTrue(result.size() == 1);
 		
-		// TODO: test against gold file
 		SudokuOutput so = new TerminalOutput();
-		so.outputBoard(solution);
+		so.outputBoard((Board) result.toArray()[0]);
 	}
 
 }

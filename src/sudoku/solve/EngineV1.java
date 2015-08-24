@@ -34,9 +34,10 @@ public class EngineV1 implements Engine {
 		solution.startWaiting();
 		
 		// Return result
+		System.out.println("Solution Found!\n");
 		return solution.getSolution();
 		
-		// TODO: some timeout
+		// TODO: some timeout, handle case where pool exhausts
 	}
 	
 	class SolveHandler implements Runnable {
@@ -62,7 +63,8 @@ public class EngineV1 implements Engine {
 				// If valid and incomplete, start executing strategies
 				Set<Board> candidates = null;
 				Set<Strategy> strategies = new HashSet<Strategy>();
-				// TODO: add strategies
+				// TODO: add more strategies
+				strategies.add(new StrategyOnePossibleValue());
 				
 				for (Strategy s : strategies){
 					candidates = s.apply(board);
