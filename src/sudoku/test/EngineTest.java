@@ -22,20 +22,24 @@ public class EngineTest {
 		assertNotNull(e);
 	}
 	
-	@Test
-	public void FileTest5() throws BoardCreationException, SudokuInputReadException {
-		Board b = new Board(new BasicTextInput("test5OnePossValueTest.txt"), 9);
+	private void EngineHelper(String inputFile, String goldFile) throws BoardCreationException, SudokuInputReadException {
+		Board b = new Board(new BasicTextInput(inputFile), 9);
 		Engine e = new EngineV1();
 		Board solution = e.solve(b);
 		
 		boolean CompareResult = false;
 		try {
-			CompareResult = TestUtils.boardCompare(solution, "test5OnePossValueTestGold.txt");
+			CompareResult = TestUtils.boardCompare(solution, goldFile);
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
 		
 		assertTrue(CompareResult);
+	}
+	
+	@Test
+	public void FileTest5() throws BoardCreationException, SudokuInputReadException {
+		EngineHelper("test5OnePossValueTest.txt", "test5OnePossValueTestGold.txt");
 	}
 
 }

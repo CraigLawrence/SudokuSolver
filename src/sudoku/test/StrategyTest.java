@@ -17,39 +17,31 @@ import sudoku.solve.Strategy;
 import sudoku.solve.StrategyOnePossibleValue;
 
 public class StrategyTest {
-
-	@Test
-	public void OnePossibleValueTest1() throws BoardCreationException, SudokuInputReadException {
-		Board b = new Board(new BasicTextInput("test5OnePossValueTest.txt"), 9);
+	
+	private void OnePossibleValueHelper(String inputFile, String goldFile) throws BoardCreationException, SudokuInputReadException {
+		Board b = new Board(new BasicTextInput(inputFile), 9);
 		Strategy s = new StrategyOnePossibleValue();
 		Set<Board> result = s.apply(b);
 		assertTrue(result.size() == 1);
 		
 		boolean CompareResult = false;
 		try {
-			CompareResult = TestUtils.boardCompare((Board) result.toArray()[0], "test5OnePossValueTestGold.txt");
+			CompareResult = TestUtils.boardCompare((Board) result.toArray()[0], goldFile);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
 		assertTrue(CompareResult);
 	}
+
+	@Test
+	public void OnePossibleValueTest1() throws BoardCreationException, SudokuInputReadException {
+		OnePossibleValueHelper("test5OnePossValueTest.txt", "test5OnePossValueTestGold.txt");
+	}
 	
 	@Test
 	public void OnePossibleValueTest2() throws BoardCreationException, SudokuInputReadException {
-		Board b = new Board(new BasicTextInput("test6OnePossValueTest.txt"), 9);
-		Strategy s = new StrategyOnePossibleValue();
-		Set<Board> result = s.apply(b);
-		assertTrue(result.size() == 1);
-		
-		boolean CompareResult = false;
-		try {
-			CompareResult = TestUtils.boardCompare((Board) result.toArray()[0], "test6OnePossValueTestGold.txt");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		assertTrue(CompareResult);
+		OnePossibleValueHelper("test6OnePossValueTest.txt", "test6OnePossValueTestGold.txt");
 	}
 
 }
