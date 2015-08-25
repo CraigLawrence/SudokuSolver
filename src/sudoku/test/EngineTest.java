@@ -32,7 +32,6 @@ public class EngineTest {
 		try {
 			CompareResult = TestUtils.boardCompare(solution, "test5OnePossValueTestGold.txt");
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		

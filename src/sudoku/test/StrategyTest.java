@@ -29,7 +29,6 @@ public class StrategyTest {
 		try {
 			CompareResult = TestUtils.boardCompare((Board) result.toArray()[0], "test5OnePossValueTestGold.txt");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
