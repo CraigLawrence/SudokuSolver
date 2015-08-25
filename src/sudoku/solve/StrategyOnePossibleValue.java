@@ -23,10 +23,12 @@ public class StrategyOnePossibleValue implements Strategy {
 		Set<Character> possibleValues;
 		for (CellGroup cellgroup : board.getCellGroups().values()) {
 			for (Cell cell : cellgroup.getCells()) {
-				possibleValues = cell.possibleValues();
-				if (possibleValues.size() == 1){
-					changed = true;
-					cell.changeValue((char) possibleValues.toArray()[0]);
+				if (cell.getValue() == board.getEmptyValue()){
+					possibleValues = cell.possibleValues();
+					if (possibleValues.size() == 1){
+						changed = true;
+						cell.changeValue((char) possibleValues.toArray()[0]);
+					}
 				}
 			}
 		}

@@ -34,5 +34,22 @@ public class StrategyTest {
 		
 		assertTrue(CompareResult);
 	}
+	
+	@Test
+	public void OnePossibleValueTest2() throws BoardCreationException, SudokuInputReadException {
+		Board b = new Board(new BasicTextInput("test6OnePossValueTest.txt"), 9);
+		Strategy s = new StrategyOnePossibleValue();
+		Set<Board> result = s.apply(b);
+		assertTrue(result.size() == 1);
+		
+		boolean CompareResult = false;
+		try {
+			CompareResult = TestUtils.boardCompare((Board) result.toArray()[0], "test6OnePossValueTestGold.txt");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		assertTrue(CompareResult);
+	}
 
 }
