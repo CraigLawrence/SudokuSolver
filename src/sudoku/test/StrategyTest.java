@@ -2,6 +2,7 @@ package sudoku.test;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
 import java.util.Set;
 
 import org.junit.Test;
@@ -16,8 +17,6 @@ import sudoku.solve.Strategy;
 import sudoku.solve.StrategyOnePossibleValue;
 
 public class StrategyTest {
-	
-	// TODO: create output class to test against gold file
 
 	@Test
 	public void OnePossibleValueTest1() throws BoardCreationException, SudokuInputReadException {
@@ -26,8 +25,15 @@ public class StrategyTest {
 		Set<Board> result = s.apply(b);
 		assertTrue(result.size() == 1);
 		
-		SudokuOutput so = new TerminalOutput();
-		so.outputBoard((Board) result.toArray()[0]);
+		boolean CompareResult = false;
+		try {
+			CompareResult = TestUtils.boardCompare((Board) result.toArray()[0], "test5OnePossValueTestGold.txt");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		assertTrue(CompareResult);
 	}
 
 }

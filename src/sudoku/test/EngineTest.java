@@ -2,6 +2,8 @@ package sudoku.test;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
+
 import org.junit.Test;
 
 import sudoku.IO.BasicTextInput;
@@ -26,9 +28,15 @@ public class EngineTest {
 		Engine e = new EngineV1();
 		Board solution = e.solve(b);
 		
-		// TODO: test against gold file
-		SudokuOutput so = new TerminalOutput();
-		so.outputBoard(solution);
+		boolean CompareResult = false;
+		try {
+			CompareResult = TestUtils.boardCompare(solution, "test5OnePossValueTestGold.txt");
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		assertTrue(CompareResult);
 	}
 
 }
