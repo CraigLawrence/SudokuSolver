@@ -85,4 +85,12 @@ public class CellGroup implements Serializable {
 		}
 	}
 	
+	public String toString() {
+		StringBuilder o = new StringBuilder();
+		for (Cell c : cells){
+			o.append(c.toString());
+		}
+		return o.toString();
+	}
+	
 }

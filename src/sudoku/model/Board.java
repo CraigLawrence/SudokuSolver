@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -131,6 +132,15 @@ public class Board implements Serializable {
 			}
 		}
 		return (CompleteGroups == cellGroups.size()) ? Validity.VALID_COMPLETE : Validity.VALID_INCOMPLETE;
+	}
+	
+	public String toString() { 
+		StringBuilder o = new StringBuilder();
+		for (int row=0; row<9; row++) {
+			CellGroup cg = cellGroups.get("row"+row);
+			o.append(cg.toString() + "\n");
+		}
+		return o.toString();
 	}
 	
 	/*

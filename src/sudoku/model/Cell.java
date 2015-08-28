@@ -57,4 +57,8 @@ public class Cell implements Serializable{
 		return pvs;
 	}
 	
+	public String toString() {
+		return String.valueOf(value);
+	}
+	
 }
