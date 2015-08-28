@@ -11,14 +11,7 @@ public class TerminalOutput implements SudokuOutput {
 
 	@Override
 	public void outputBoard(Board b) {
-		Map<String, CellGroup> cgs = b.getCellGroups();
-		for (int row=0; row<9; row++) {
-			List<Cell> cells = cgs.get("row"+row).getCells();
-			for (Cell c : cells) {
-				System.out.printf("%c", c.getValue());
-			}
-			System.out.println();
-		}
+		System.out.println(b.toString());
 	}
 
 }

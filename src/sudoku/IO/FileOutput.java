@@ -26,14 +26,7 @@ public class FileOutput implements SudokuOutput {
 			bw = new BufferedWriter(new FileWriter(file));
 			
 			// Write file
-			Map<String, CellGroup> cgs = b.getCellGroups();
-			for (int row=0; row<9; row++) {
-				List<Cell> cells = cgs.get("row"+row).getCells();
-				for (Cell c : cells) {
-					bw.write(String.format("%c", c.getValue()));
-				}
-				bw.write('\n');
-			}
+			bw.write(b.toString());
 			
 			// Close file
 			bw.close();
