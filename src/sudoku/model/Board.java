@@ -96,6 +96,10 @@ public class Board implements Serializable {
 		return cellGroups;
 	}
 	
+	public Set<Character> getNumberSet() {
+		return numberSet;
+	}
+	
 	public char getEmptyValue() {
 		return emptyValue;
 	}
