@@ -31,6 +31,8 @@ public class StrategyOnePossibleCellInGroup implements Strategy {
 			}
 			// Consider each cell
 			for (Cell c : cg.getCells()) {
+				if (c.getValue() != board.getEmptyValue())
+					continue;
 				// Get possible values
 				Set<Character> pvs = c.possibleValues();
 				// Add this cell to corresponding collections
@@ -44,11 +46,14 @@ public class StrategyOnePossibleCellInGroup implements Strategy {
 				if (possiblePlaces.get(v).size() == 1) {
 					Cell c = (Cell) possiblePlaces.get(v).toArray()[0];
 					c.changeValue(v);
+					changed = true;
 				}
 			}
 		}
 		
-		return null;
+		if (changed)
+			branches.add(board);		
+		return branches;
 	}
 
 }
