@@ -41,7 +41,7 @@ public class StrategyOnePossibleCellInGroup implements Strategy {
 				}
 			}
 			// Consider each value
-			for (char v : board.getNumberSet()) {
+			for (char v : cg.missingValues()) {
 				// If it's collection has only one cell, assign the cell that value
 				if (possiblePlaces.get(v).size() == 1) {
 					Cell c = (Cell) possiblePlaces.get(v).toArray()[0];
