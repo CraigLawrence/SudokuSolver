@@ -11,6 +11,7 @@ import sudoku.IO.SudokuInput.SudokuInputReadException;
 import sudoku.IO.SudokuOutput;
 import sudoku.IO.TerminalOutput;
 import sudoku.model.Board;
+import sudoku.model.Validity;
 import sudoku.model.Board.BoardCreationException;
 import sudoku.solve.*;
 
@@ -41,5 +42,14 @@ public class EngineTest {
 	public void FileTest5() throws BoardCreationException, SudokuInputReadException {
 		EngineHelper("test51OnePossValueTest.txt", "test51OnePossValueTestGold.txt");
 	}
+	
+	/*@Test
+	public void BlankTest() throws BoardCreationException, SudokuInputReadException {
+		Board b = new Board(new BasicTextInput("test1Blank.txt"), 9);
+		Engine e = new EngineV1();
+		Board solution = e.solve(b);
+		
+		assertTrue(solution.isValid() == Validity.VALID_COMPLETE);
+	}*/
 
 }

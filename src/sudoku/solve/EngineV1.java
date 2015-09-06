@@ -49,6 +49,7 @@ public class EngineV1 implements Engine {
 	
 		@Override
 		public void run() {		
+			System.out.println(board.toString());
 			// Check the board
 			Validity valid = board.isValid();
 			switch (valid) {
@@ -66,6 +67,8 @@ public class EngineV1 implements Engine {
 				Set<Strategy> strategies = new HashSet<Strategy>();
 				// TODO: add more strategies
 				strategies.add(new StrategyOnePossibleValue());
+				strategies.add(new StrategyOnePossibleCellInGroup());
+				strategies.add(new StrategyScatterShot());
 				
 				for (Strategy s : strategies){
 					candidates = s.apply(board);
