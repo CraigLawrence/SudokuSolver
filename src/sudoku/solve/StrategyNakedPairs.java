@@ -30,12 +30,8 @@ public class StrategyNakedPairs implements Strategy {
 					}
 					
 					if (otherCell.possibleValues().equals(pvs)){
-						// May've found a naked pair, now check they share 1+ cell groups
-						Set<CellGroup> temp = new HashSet<CellGroup>();
-						temp.addAll(c.getCellGroups());
-						temp.retainAll(otherCell.getCellGroups());
-						
-						if (temp.size() > 0) {						
+						// May've found a naked pair, now check they share 1+ cell groups						
+						if (c.numberOfSharedCellGroups(otherCell) >= 1) {						
 							// Create two branches
 							Object[] options = pvs.toArray();
 							c.changeValue((char)options[0]);
