@@ -69,6 +69,7 @@ public class EngineV1 implements Engine {
 				strategies.add(new StrategyOnePossibleValue());
 				strategies.add(new StrategyOnePossibleCellInGroup());
 				strategies.add(new StrategyScatterShot());
+				strategies.add(new StrategyNakedPairs());
 				
 				for (Strategy s : strategies){
 					candidates = s.apply(board);

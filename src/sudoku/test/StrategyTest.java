@@ -42,6 +42,7 @@ public class StrategyTest {
 		OnePossibleValueHelper("test52OnePossValueTest.txt", "test52OnePossValueTestGold.txt");
 	}
 	
+	
 	private void OnePossibleCellHelper(String inputFile, String goldFile) throws BoardCreationException, SudokuInputReadException {
 		Board b = new Board(new BasicTextInput(inputFile), 9);
 		Strategy s = new StrategyOnePossibleCellInGroup();
@@ -63,6 +64,28 @@ public class StrategyTest {
 		OnePossibleCellHelper("test61OnePossCellTest.txt", "test61OnePossCellTestGold.txt");
 	}
 	
+	
+	private void NakedPairHelper(String inputFile, String goldFile1, String goldFile2) throws BoardCreationException, SudokuInputReadException {
+		Board b = new Board(new BasicTextInput(inputFile), 9);
+		Strategy s = new StrategyNakedPairs();
+		Set<Board> result = s.apply(b);
+		assertTrue(result.size() == 2);
+		
+		for (Board b1 : result){
+			try {
+				assertTrue(TestUtils.boardCompare(b1, goldFile1) || TestUtils.boardCompare(b1, goldFile2));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	@Test
+	public void NakedPairTest1() throws BoardCreationException, SudokuInputReadException {
+		NakedPairHelper("test71NakedPairTest.txt", "test71NakedPairTestGold1.txt", "test71NakedPairTestGold2.txt");
+	}
+	
+	
 	@Test
 	public void ScatterShotTest1() throws BoardCreationException, SudokuInputReadException {
 		Board b = new Board(new BasicTextInput("test1Blank.txt"), 9);
@@ -74,4 +97,5 @@ public class StrategyTest {
 			assertTrue(b2.isValid() == Validity.VALID_COMPLETE || b2.isValid() == Validity.VALID_INCOMPLETE);
 		}
 	}
+	
 }
