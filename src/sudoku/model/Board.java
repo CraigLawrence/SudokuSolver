@@ -5,6 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -24,6 +25,7 @@ public class Board implements Serializable {
 	 */
 
 	private Map<String, CellGroup> cellGroups;
+	private List<Cell> allCells;
 	private Set<Character> numberSet;
 	private char emptyValue;
 	
@@ -36,6 +38,7 @@ public class Board implements Serializable {
 	
 	public Board(SudokuInput si, int size) throws BoardCreationException {
 		cellGroups = new HashMap<String, CellGroup>();
+		allCells = new ArrayList<Cell>();
 		numberSet = new HashSet<Character>(Arrays.asList('1','2','3','4','5','6','7','8','9'));
 		emptyValue = '0';
 		
@@ -70,6 +73,7 @@ public class Board implements Serializable {
 					
 					Cell newCell =  new Cell(numberRead, true, row, col, quad);							
 					row.addCell(newCell); col.addCell(newCell); quad.addCell(newCell);
+					allCells.add(newCell);
 					
 					charsRead++;
 					}
@@ -95,6 +99,10 @@ public class Board implements Serializable {
 	
 	public Map<String, CellGroup> getCellGroups() {
 		return cellGroups;
+	}
+	
+	public List<Cell> getAllCells() {
+		return allCells;
 	}
 	
 	public Set<Character> getNumberSet() {
