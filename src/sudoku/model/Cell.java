@@ -37,6 +37,10 @@ public class Cell implements Serializable{
 		return value;
 	}
 	
+	public Set<CellGroup> getCellGroups() {
+		return groups;
+	}
+	
 	public void changeValue(char newVal) {
 		value = newVal;
 	}
