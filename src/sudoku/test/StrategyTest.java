@@ -85,6 +85,14 @@ public class StrategyTest {
 		NakedPairHelper("test71NakedPairTest.txt", "test71NakedPairTestGold1.txt", "test71NakedPairTestGold2.txt");
 	}
 	
+	@Test
+	public void NakedPairTest2() throws BoardCreationException, SudokuInputReadException {
+		Board b = new Board(new BasicTextInput("test72NakedPairTest.txt"), 9);
+		Strategy s = new StrategyNakedPairs();
+		Set<Board> result = s.apply(b);
+		assertTrue(result.size() == 0);
+	}
+	
 	
 	@Test
 	public void ScatterShotTest1() throws BoardCreationException, SudokuInputReadException {

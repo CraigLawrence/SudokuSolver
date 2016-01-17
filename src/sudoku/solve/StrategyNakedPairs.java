@@ -24,26 +24,36 @@ public class StrategyNakedPairs implements Strategy {
 			if (pvs.size() == 2){
 				// Check the other cells in the group for the same 2 values
 				for (int j=i+1; j<b.getAllCells().size(); j++){
-					if (b.getAllCells().get(j).possibleValues().equals(pvs)){
-						// Found a naked pair
+					Cell otherCell = b.getAllCells().get(j);
+					if (otherCell.getValue() != b.getEmptyValue()){
+						continue;
+					}
+					
+					if (otherCell.possibleValues().equals(pvs)){
+						// May've found a naked pair, now check they share 1+ cell groups
+						Set<CellGroup> temp = new HashSet<CellGroup>();
+						temp.addAll(c.getCellGroups());
+						temp.retainAll(otherCell.getCellGroups());
 						
-						// Create two branches
-						Object[] options = pvs.toArray();
-						b.getAllCells().get(i).changeValue((char)options[0]);
-						b.getAllCells().get(j).changeValue((char)options[1]);						
-						Board board1 = b.copyBoard();
-						
-						b.getAllCells().get(i).changeValue((char)options[1]);
-						b.getAllCells().get(j).changeValue((char)options[0]);	
-						Board board2 = b.copyBoard();
-						
-						b.getAllCells().get(i).changeValue('0');
-						b.getAllCells().get(j).changeValue('0');
-						
-						branches.add(board1);
-						branches.add(board2);
-						
-						// TODO: Maybe don't branch and exclude these from other cells' possible values
+						if (temp.size() > 0) {						
+							// Create two branches
+							Object[] options = pvs.toArray();
+							c.changeValue((char)options[0]);
+							otherCell.changeValue((char)options[1]);						
+							Board board1 = b.copyBoard();
+							
+							c.changeValue((char)options[1]);
+							otherCell.changeValue((char)options[0]);	
+							Board board2 = b.copyBoard();
+							
+							c.changeValue('0');
+							otherCell.changeValue('0');
+							
+							branches.add(board1);
+							branches.add(board2);
+							
+							// TODO: Maybe don't branch and exclude these from other cells' possible values
+						}
 						
 					}
 				}
