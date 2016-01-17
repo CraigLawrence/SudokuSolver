@@ -35,9 +35,9 @@ public class EngineV1 implements Engine {
 		
 		// Return result
 		System.out.println("Solution Found!\n");
+		boardPool.shutdownNow();
 		return solution.getSolution();
 		
-		// TODO: ^^kill thread pool when solution found
 		// TODO: some timeout, handle case where pool exhausts
 	}
 	
