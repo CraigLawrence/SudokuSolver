@@ -32,7 +32,7 @@ public class StrategyScatterShot implements Strategy {
 		// Consider each cell
 		for (Cell c : cg.getCells()) {
 			// Is the chosen value a possible value
-			if (c.possibleValues().contains(chosenValue)) {
+			if (c.possibleValues().contains(chosenValue) && c.getValue() == b.getEmptyValue()) {
 				// If yes, set the value
 				c.changeValue(chosenValue);
 				// Copy the board, add it to the pool
