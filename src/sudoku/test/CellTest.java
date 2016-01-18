@@ -175,4 +175,31 @@ public class CellTest {
 		assertTrue(pvs.size() == 1 && 
 				pvs.contains('9'));
 	}
+	
+	@Test
+	public void PossibleValueWithExclusion() throws CellGroupException {
+		Set<Character> numberSet = new HashSet<Character>(Arrays.asList('1','2','3','4','5','6','7','8','9'));
+		CellGroup row = new CellGroup(numberSet, '0');
+		CellGroup col = new CellGroup(numberSet, '0');
+		CellGroup quad = new CellGroup(numberSet, '0');
+		
+		Cell mainCell = new Cell('0', false, row, col, quad);
+		
+		row.addCell(mainCell);
+		col.addCell(mainCell);
+		quad.addCell(mainCell);
+		
+		mainCell.addPossibleValueExclusion('2');
+		mainCell.addPossibleValueExclusion('7');
+		
+		Set<Character> pvs = mainCell.possibleValues();
+		assertTrue(pvs.size() == 7 && 
+				pvs.contains('1') &&
+				pvs.contains('3') &&
+				pvs.contains('4') &&
+				pvs.contains('5') &&
+				pvs.contains('6') &&
+				pvs.contains('8') &&
+				pvs.contains('9'));
+	}
 }

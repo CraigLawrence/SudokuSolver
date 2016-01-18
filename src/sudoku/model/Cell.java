@@ -16,6 +16,7 @@ public class Cell implements Serializable{
 	private char value;
 	private boolean definedAtStart;
 	private Set<CellGroup> groups;
+	private Set<Character> possibleValueExclusions;
 	
 	/*
 	 * Constructor
@@ -26,6 +27,7 @@ public class Cell implements Serializable{
 		value = val;
 		definedAtStart = defAtStart;
 		groups =  new HashSet<CellGroup>();
+		possibleValueExclusions = new HashSet<Character>();
 		groups.addAll(Arrays.asList(cgs));
 	}
 	
@@ -52,19 +54,36 @@ public class Cell implements Serializable{
 	public Set<Character> possibleValues(){
 		Set<Character> pvs = null;
 		
+		// Get the values common to the missing values of all cell groups with cell belongs to
 		Iterator<CellGroup> i = groups.iterator();
 		pvs = i.next().missingValues();
 		while (i.hasNext()){
 			pvs.retainAll(i.next().missingValues());
 		}
 		
+		// Remove the specified exclusions
+		pvs.removeAll(possibleValueExclusions);
+		
 		return pvs;
+	}
+	
+	public void addPossibleValueExclusion(char c) {
+		possibleValueExclusions.add(c);
+	}
+	
+	public void removePossibleValueExclusion(char c) {
+		possibleValueExclusions.remove(c);
 	}
 	
 	public String toString() {
 		return String.valueOf(value);
 	}
 	
+	/**
+	 * Checks the number of cell groups another cell has in common with this one
+	 * @param otherCell
+	 * @return
+	 */
 	public int numberOfSharedCellGroups(Cell otherCell){
 		Set<CellGroup> temp = new HashSet<CellGroup>();
 		temp.addAll(groups);
