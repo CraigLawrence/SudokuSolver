@@ -71,6 +71,10 @@ public class Cell implements Serializable{
 		possibleValueExclusions.add(c);
 	}
 	
+	public boolean isPossibleValueExcluded(char c){
+		return possibleValueExclusions.contains(c);
+	}
+	
 	public void removePossibleValueExclusion(char c) {
 		possibleValueExclusions.remove(c);
 	}
