@@ -1,6 +1,8 @@
 package sudoku.solve;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -64,12 +66,12 @@ public class EngineV1 implements Engine {
 			case VALID_INCOMPLETE:
 				// If valid and incomplete, start executing strategies
 				Set<Board> candidates = null;
-				Set<Strategy> strategies = new HashSet<Strategy>();
+				List<Strategy> strategies = new ArrayList<Strategy>();
 				// TODO: add more strategies
 				strategies.add(new StrategyOnePossibleValue());
 				strategies.add(new StrategyOnePossibleCellInGroup());
-				strategies.add(new StrategyScatterShot());
 				strategies.add(new StrategyNakedPairs());
+				strategies.add(new StrategyScatterShot());
 				
 				for (Strategy s : strategies){
 					candidates = s.apply(board);
