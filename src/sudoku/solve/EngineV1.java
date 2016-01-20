@@ -1,7 +1,6 @@
 package sudoku.solve;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
@@ -9,6 +8,7 @@ import java.util.concurrent.Executors;
 
 import sudoku.model.Board;
 import sudoku.model.Validity;
+import sudoku.solve.StrategyNakedPairs.NakedPairsMode;
 
 public class EngineV1 implements Engine {
 	
@@ -70,7 +70,8 @@ public class EngineV1 implements Engine {
 				// TODO: add more strategies
 				strategies.add(new StrategyOnePossibleValue());
 				strategies.add(new StrategyOnePossibleCellInGroup());
-				strategies.add(new StrategyNakedPairs());
+				strategies.add(new StrategyNakedPairs(NakedPairsMode.EXCLUDING));
+				strategies.add(new StrategyNakedPairs(NakedPairsMode.BRANCHING));
 				strategies.add(new StrategyScatterShot());
 				
 				for (Strategy s : strategies){

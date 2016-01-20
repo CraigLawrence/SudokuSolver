@@ -67,16 +67,12 @@ public class Cell implements Serializable{
 		return pvs;
 	}
 	
-	public void addPossibleValueExclusion(char c) {
-		possibleValueExclusions.add(c);
+	public boolean addPossibleValueExclusion(char c) {
+		return possibleValueExclusions.add(c);
 	}
 	
-	public boolean isPossibleValueExcluded(char c){
-		return possibleValueExclusions.contains(c);
-	}
-	
-	public void removePossibleValueExclusion(char c) {
-		possibleValueExclusions.remove(c);
+	public boolean removePossibleValueExclusion(char c) {
+		return possibleValueExclusions.remove(c);
 	}
 	
 	public String toString() {

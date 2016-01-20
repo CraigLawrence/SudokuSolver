@@ -10,9 +10,9 @@ import org.junit.Test;
 import sudoku.IO.*;
 import sudoku.IO.SudokuInput.SudokuInputReadException;
 import sudoku.model.*;
-import sudoku.model.Board.BoardCreationException;
 import sudoku.model.Board.*;
 import sudoku.solve.*;
+import sudoku.solve.StrategyNakedPairs.NakedPairsMode;
 
 public class StrategyTest {
 	
@@ -65,9 +65,9 @@ public class StrategyTest {
 	}
 	
 	
-	private void NakedPairHelper(String inputFile, String goldFile1, String goldFile2) throws BoardCreationException, SudokuInputReadException {
+	private void NakedPairHelperBranching(String inputFile, String goldFile1, String goldFile2) throws BoardCreationException, SudokuInputReadException {
 		Board b = new Board(new BasicTextInput(inputFile), 9);
-		Strategy s = new StrategyNakedPairs();
+		Strategy s = new StrategyNakedPairs(NakedPairsMode.BRANCHING);
 		Set<Board> result = s.apply(b);
 		assertTrue(result.size() == 2);
 		
@@ -82,14 +82,24 @@ public class StrategyTest {
 	
 	@Test
 	public void NakedPairTest1() throws BoardCreationException, SudokuInputReadException {
-		NakedPairHelper("test71NakedPairTest.txt", "test71NakedPairTestGold1.txt", "test71NakedPairTestGold2.txt");
+		NakedPairHelperBranching("test71NakedPairTest.txt", "test71NakedPairTestGold1.txt", "test71NakedPairTestGold2.txt");
 	}
 	
 	@Test
 	public void NakedPairTest2() throws BoardCreationException, SudokuInputReadException {
 		Board b = new Board(new BasicTextInput("test72NakedPairTest.txt"), 9);
-		Strategy s = new StrategyNakedPairs();
+		Strategy s = new StrategyNakedPairs(NakedPairsMode.BRANCHING);
 		Set<Board> result = s.apply(b);
+		assertTrue(result.size() == 0);
+	}
+	
+	@Test
+	public void NakedPairTest3() throws BoardCreationException, SudokuInputReadException {
+		Board b = new Board(new BasicTextInput("test71NakedPairTest.txt"), 9);
+		Strategy s = new StrategyNakedPairs(NakedPairsMode.EXCLUDING);
+		Set<Board> result = s.apply(b);
+		assertTrue(result.size() == 1);
+		result = s.apply(result.iterator().next());
 		assertTrue(result.size() == 0);
 	}
 	
