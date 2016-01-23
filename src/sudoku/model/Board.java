@@ -142,6 +142,16 @@ public class Board implements Serializable {
 		return (CompleteGroups == cellGroups.size()) ? Validity.VALID_COMPLETE : Validity.VALID_INCOMPLETE;
 	}
 	
+	public double getFractionComplete() {
+		double cellsFilled = 0;
+		double totalCells = allCells.size();
+		for (Cell c : allCells){
+			if (c.getValue() != emptyValue)
+				cellsFilled++;
+		}
+		return cellsFilled/totalCells;
+	}
+	
 	public String toString() { 
 		StringBuilder o = new StringBuilder();
 		for (int row=0; row<9; row++) {

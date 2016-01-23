@@ -69,6 +69,31 @@ public class BoardTest {
 		assertTrue(b.isValid() == Validity.VALID_INCOMPLETE);
 	}
 	
+	// Cells Fraction Filled Tests
+	@Test
+	public void fractionFilledTestBlank() throws BoardCreationException, SudokuInputReadException{
+		Board b = new Board(new BasicTextInput("test1Blank.txt"), 9);
+		assertTrue(b.getFractionComplete() == 0.0);
+	}
+	
+	@Test
+	public void fractionFilledTestFull() throws BoardCreationException, SudokuInputReadException{
+		Board b = new Board(new BasicTextInput("test3ValidComp.txt"), 9);
+		assertTrue(b.getFractionComplete() == 1.0);
+	}
+	
+	@Test
+	public void fractionFilledTest1() throws BoardCreationException, SudokuInputReadException{
+		Board b = new Board(new BasicTextInput("test51OnePossValueTest.txt"), 9);
+		assertTrue(b.getFractionComplete() == 80.0/81.0);
+	}
+	
+	@Test
+	public void fractionFilledTest2() throws BoardCreationException, SudokuInputReadException{
+		Board b = new Board(new BasicTextInput("test0General1.txt"), 9);
+		assertTrue(b.getFractionComplete() == 36.0/81.0);
+	}
+	
 	// Exception Tests
 	// TODO
 }
