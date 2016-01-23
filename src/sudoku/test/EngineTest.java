@@ -43,6 +43,11 @@ public class EngineTest {
 		EngineHelper("test51OnePossValueTest.txt", "test51OnePossValueTestGold.txt");
 	}
 	
+	@Test
+	public void FileTest0General1_Easy() throws BoardCreationException, SudokuInputReadException {
+		EngineHelper("test0General1.txt", "test0General1Gold.txt");
+	}
+	
 	/*@Test
 	public void BlankTest() throws BoardCreationException, SudokuInputReadException {
 		Board b = new Board(new BasicTextInput("test1Blank.txt"), 9);
