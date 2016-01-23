@@ -12,7 +12,6 @@ import sudoku.IO.SudokuInput.SudokuInputReadException;
 import sudoku.model.*;
 import sudoku.model.Board.*;
 import sudoku.solve.*;
-import sudoku.solve.StrategyNakedPairs.NakedPairsMode;
 
 public class StrategyTest {
 	
@@ -67,7 +66,7 @@ public class StrategyTest {
 	
 	private void NakedPairHelperBranching(String inputFile, String goldFile1, String goldFile2) throws BoardCreationException, SudokuInputReadException {
 		Board b = new Board(new BasicTextInput(inputFile), 9);
-		Strategy s = new StrategyNakedPairs(NakedPairsMode.BRANCHING);
+		Strategy s = new StrategyNakedPairs(StrategyMode.BRANCHING);
 		Set<Board> result = s.apply(b);
 		assertTrue(result.size() == 2);
 		
@@ -88,7 +87,7 @@ public class StrategyTest {
 	@Test
 	public void NakedPairTest2() throws BoardCreationException, SudokuInputReadException {
 		Board b = new Board(new BasicTextInput("test72NakedPairTest.txt"), 9);
-		Strategy s = new StrategyNakedPairs(NakedPairsMode.BRANCHING);
+		Strategy s = new StrategyNakedPairs(StrategyMode.BRANCHING);
 		Set<Board> result = s.apply(b);
 		assertTrue(result.size() == 0);
 	}
@@ -96,7 +95,7 @@ public class StrategyTest {
 	@Test
 	public void NakedPairTest3() throws BoardCreationException, SudokuInputReadException {
 		Board b = new Board(new BasicTextInput("test71NakedPairTest.txt"), 9);
-		Strategy s = new StrategyNakedPairs(NakedPairsMode.EXCLUDING);
+		Strategy s = new StrategyNakedPairs(StrategyMode.EXCLUDING);
 		Set<Board> result = s.apply(b);
 		assertTrue(result.size() == 1);
 		result = s.apply(result.iterator().next());

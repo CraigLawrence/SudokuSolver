@@ -8,7 +8,6 @@ import java.util.concurrent.Executors;
 
 import sudoku.model.Board;
 import sudoku.model.Validity;
-import sudoku.solve.StrategyNakedPairs.NakedPairsMode;
 
 public class EngineV1 implements Engine {
 	
@@ -67,11 +66,11 @@ public class EngineV1 implements Engine {
 				// If valid and incomplete, start executing strategies
 				Set<Board> candidates = null;
 				List<Strategy> strategies = new ArrayList<Strategy>();
-				// TODO: add more strategies
-				strategies.add(new StrategyOnePossibleValue());
-				strategies.add(new StrategyOnePossibleCellInGroup());
-				strategies.add(new StrategyNakedPairs(NakedPairsMode.EXCLUDING));
-				strategies.add(new StrategyNakedPairs(NakedPairsMode.BRANCHING));
+				// TODO: add more strategies										// Max Branches
+				strategies.add(new StrategyOnePossibleValue());						// 1
+				strategies.add(new StrategyOnePossibleCellInGroup());				// 1
+				strategies.add(new StrategyNakedPairs(StrategyMode.EXCLUDING));	// 1
+				strategies.add(new StrategyNakedPairs(StrategyMode.BRANCHING)); 	// 2
 				strategies.add(new StrategyScatterShot());
 				
 				for (Strategy s : strategies){

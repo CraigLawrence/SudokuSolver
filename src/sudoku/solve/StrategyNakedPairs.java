@@ -9,14 +9,9 @@ import sudoku.model.CellGroup;
 
 public class StrategyNakedPairs implements Strategy {
 	
-	public enum NakedPairsMode {
-		EXCLUDING,
-		BRANCHING,
-	}
+	private StrategyMode mode;
 	
-	private NakedPairsMode mode;
-	
-	public StrategyNakedPairs(NakedPairsMode mode) {
+	public StrategyNakedPairs(StrategyMode mode) {
 		this.mode = mode;
 	}
 
