@@ -19,6 +19,7 @@ public class EngineTest {
 
 	@Test
 	public void SanityTest() throws BoardCreationException, SudokuInputReadException {
+		System.out.println("---------SanityTest-----------");
 		Engine e = new EngineV1();
 		assertNotNull(e);
 	}
@@ -40,12 +41,32 @@ public class EngineTest {
 	
 	@Test
 	public void FileTest5() throws BoardCreationException, SudokuInputReadException {
+		System.out.println("---------FileTest5-----------");
 		EngineHelper("test51OnePossValueTest.txt", "test51OnePossValueTestGold.txt");
 	}
 	
 	@Test
 	public void FileTest0General1_Easy() throws BoardCreationException, SudokuInputReadException {
+		System.out.println("---------FileTest0General1_Easy-----------");
 		EngineHelper("test0General1.txt", "test0General1Gold.txt");
+	}
+	
+	
+	@Test
+	public void CancelTest() throws BoardCreationException, SudokuInputReadException, InterruptedException {
+		System.out.println("---------CancelTest-----------");
+		final Engine e = new EngineV1();
+		final Board b = new Board(new BasicTextInput("test1Blank.txt"), 9);
+		class xx extends Thread {
+			@Override
+			public void run() {
+				Board solution = e.solve(b);
+				assertNull(solution);
+			}
+		}
+		new xx().start();
+		e.cancel();
+		Thread.sleep(500); // Give other thread a moment to do assertNull and terminate
 	}
 	
 	/*@Test

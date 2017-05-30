@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Semaphore;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import sudoku.model.Board;
 import sudoku.model.Validity;
@@ -13,17 +15,22 @@ public class EngineV1 implements Engine {
 	
 	private final ExecutorService boardPool;
 	private final Solution solution;
+	private final AtomicBoolean cancelled;
 	
 	public EngineV1() {
 		// Setup pool
 		System.out.print("Setting up...");
 		boardPool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 		solution = new Solution();
+		cancelled = new AtomicBoolean(); cancelled.set(false);
 		System.out.println("Done");
 	}
 
 	@Override
 	public Board solve(Board b) {
+		
+		// Setup engine
+		solution.startSolving();		
 
 		// Seed with starting board
 		boardPool.submit(new SolveHandler(b));
@@ -31,15 +38,32 @@ public class EngineV1 implements Engine {
 		// Start parallel processing
 		System.out.println("Working...");
 		
-		// Wait for result or for pool to exhaust
-		solution.startWaiting();
-		
-		// Return result
-		System.out.println("Solution Found!\n");
-		boardPool.shutdownNow();
-		return solution.getSolution();
+		while (true) {
+			if (solution.getSolution() ==  null) {
+				// No solution found yet
+				// Has the solve been cancelled?
+				if (cancelled.get()){
+					System.out.println("Cancelled\n");
+					boardPool.shutdownNow();
+					return null;
+				}
+			}
+			else {
+				// Solution found, 
+				System.out.println("Solution Found!\n");
+				boardPool.shutdownNow();
+				return solution.getSolution();
+			}
+		}
 		
 		// TODO: some timeout, handle case where pool exhausts
+		
+		// TODO: consider handling case where cancel is called really quickly after starting. 
+	}
+	
+	@Override
+	public void cancel() {
+		cancelled.set(true);
 	}
 	
 	class SolveHandler implements Runnable {
@@ -50,7 +74,7 @@ public class EngineV1 implements Engine {
 	
 		@Override
 		public void run() {		
-			System.out.println(board.toString());
+			//System.out.println(board.toString()); // <-- Uncomment for desperate debugging
 			// Check the board
 			Validity valid = board.isValid();
 			switch (valid) {
@@ -69,7 +93,7 @@ public class EngineV1 implements Engine {
 				// TODO: add more strategies										// Max Branches
 				strategies.add(new StrategyOnePossibleValue());						// 1
 				strategies.add(new StrategyOnePossibleCellInGroup());				// 1
-				strategies.add(new StrategyNakedPairs(StrategyMode.EXCLUDING));	// 1
+				strategies.add(new StrategyNakedPairs(StrategyMode.EXCLUDING));		// 1
 				strategies.add(new StrategyNakedPairs(StrategyMode.BRANCHING)); 	// 2
 				strategies.add(new StrategyScatterShot());
 				
@@ -94,29 +118,27 @@ public class EngineV1 implements Engine {
 	class Solution {
 		
 		private Board finalBoard;
-		private Object lock = new Object();
+		private Semaphore sem;
 		
-		public void startWaiting() {
-			synchronized(lock){
-				try {
-					lock.wait();
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+		public void startSolving(){
+			sem = new Semaphore(1);
+			try {
+				sem.acquire();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 		
 		public void setSolution(Board board){
-			synchronized(lock){
+			if (sem.availablePermits() == 0) {
 				finalBoard = board;
-				lock.notify();
+				sem.release();
 			}
 		}
 		
 		public Board getSolution(){
-			synchronized(lock){
-				return finalBoard;
-			}
+			return sem.availablePermits() == 1 ? finalBoard : null;
 		}
 		
 	}
