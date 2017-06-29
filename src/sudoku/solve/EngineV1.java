@@ -50,6 +50,13 @@ public class EngineV1 implements Engine {
 					boardPool.shutdownNow();
 					return null;
 				}
+				if (boardPool.getPoolSize() + boardPool.getQueue().size() == 0){
+					// TODO: This still need proper testing
+					// Pool has exhausted
+					System.out.println("No Solution Found\n");
+					boardPool.shutdownNow();
+					return null;
+				}
 			}
 			else {
 				// Solution found, 
@@ -58,8 +65,6 @@ public class EngineV1 implements Engine {
 				return solution.getSolution();
 			}
 		}
-		
-		// TODO: some timeout, handle case where pool exhausts
 		
 		// TODO: consider handling case where cancel is called really quickly after starting. 
 	}
@@ -77,7 +82,8 @@ public class EngineV1 implements Engine {
 	
 		@Override
 		public void run() {		
-			//System.out.println(board.toString()); // <-- Uncomment for desperate debugging
+			//System.out.println(board.toString()+"Pool size:"+boardPool.getPoolSize()+"Queue size:"+boardPool.getQueue().size());
+				// ^^^ Uncomment for desperate debugging
 			// Check the board
 			Validity valid = board.isValid();
 			switch (valid) {
