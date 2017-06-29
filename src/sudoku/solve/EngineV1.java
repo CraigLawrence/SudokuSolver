@@ -3,9 +3,10 @@ package sudoku.solve;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import sudoku.model.Board;
@@ -13,14 +14,16 @@ import sudoku.model.Validity;
 
 public class EngineV1 implements Engine {
 	
-	private final ExecutorService boardPool;
+	private final ThreadPoolExecutor boardPool;
 	private final Solution solution;
 	private final AtomicBoolean cancelled;
 	
 	public EngineV1() {
 		// Setup pool
 		System.out.print("Setting up...");
-		boardPool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+		boardPool = new ThreadPoolExecutor(Runtime.getRuntime().availableProcessors(), 
+											Runtime.getRuntime().availableProcessors(),
+											0, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
 		solution = new Solution();
 		cancelled = new AtomicBoolean(); cancelled.set(false);
 		System.out.println("Done");
