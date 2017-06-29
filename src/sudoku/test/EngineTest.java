@@ -51,6 +51,12 @@ public class EngineTest {
 		EngineHelper("test0General1.txt", "test0General1Gold.txt");
 	}
 	
+	@Test
+	public void FileTest0General2_Medium() throws BoardCreationException, SudokuInputReadException {
+		System.out.println("---------FileTest0General2_Medium-----------");
+		EngineHelper("test0General2.txt", "test0General2Gold.txt");
+	}
+	
 	
 	@Test
 	public void CancelTest() throws BoardCreationException, SudokuInputReadException, InterruptedException {
