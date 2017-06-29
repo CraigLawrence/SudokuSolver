@@ -104,6 +104,7 @@ public class EngineV1 implements Engine {
 						for (Board b : candidates) {
 							boardPool.submit(new SolveHandler(b));
 						}
+						break;
 					}
 				}
 				break;
