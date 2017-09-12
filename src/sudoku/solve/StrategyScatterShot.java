@@ -18,15 +18,27 @@ public class StrategyScatterShot implements Strategy {
 
 	@Override
 	public Set<Board> apply(Board b) {
+
 		Set<Board> branches = new HashSet<Board>();
 		
 		// Pick a random cell group
 		Random r = new Random();
 		Collection<CellGroup> groupValues = b.getCellGroups().values();
-		CellGroup cg = (CellGroup) groupValues.toArray() [r.nextInt(groupValues.size())];
+		
+		CellGroup cg = null;
+		Set<Character> missing = null;
+		boolean found = false;
+		// Need to handle the case where a complete cell group is picked
+		while (!found){
+			cg = (CellGroup) groupValues.toArray() [r.nextInt(groupValues.size())];
+			missing = cg.missingValues();
+			if (missing.size() == 0)
+				groupValues.remove(cg);
+			else
+				found = true;
+		}
 		
 		// Pick a random missing value
-		Set<Character> missing = cg.missingValues();
 		char chosenValue = (char) missing.toArray() [r.nextInt(missing.size())];
 		
 		// Consider each cell
