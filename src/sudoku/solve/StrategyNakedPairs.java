@@ -43,7 +43,7 @@ public class StrategyNakedPairs implements Strategy {
 							switch (mode) {
 							case EXCLUDING:
 								// Exclude the possible values of the naked pair from other cells that share groups.
-								// Only continue this branch if at exclusion list is grown.
+								// Only continue this branch if an exclusion list is grown.
 								boolean changes = false;
 								Cell[] pair = new Cell[] {c, otherCell};
 								
@@ -52,7 +52,7 @@ public class StrategyNakedPairs implements Strategy {
 										for (Cell cgCell : cg.getCells()){
 											if (cgCell == pair[0] || cgCell == pair[1])
 												continue;
-											if (cgCell.addPossibleValueExclusion((char)options[0]) | cgCell.addPossibleValueExclusion((char)options[1]))
+											if (cgCell.addPossibleValueExclusion((char)options[0]) || cgCell.addPossibleValueExclusion((char)options[1]))
 												changes = true;
 										}
 									}
