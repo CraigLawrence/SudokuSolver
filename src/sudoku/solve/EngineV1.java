@@ -8,25 +8,28 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import sudoku.model.Board;
 import sudoku.model.Validity;
 
 public class EngineV1 implements Engine {
+	private static final Logger LOGGER = Logger.getLogger( EngineV1.class.getName() );
 	
 	private final ThreadPoolExecutor boardPool;
 	private final Solution solution;
 	private final AtomicBoolean cancelled;
 	
-	public EngineV1() {
+	public EngineV1() {		
 		// Setup pool
-		System.out.print("Setting up...");
-		boardPool = new ThreadPoolExecutor(Runtime.getRuntime().availableProcessors(), 
-											Runtime.getRuntime().availableProcessors(),
-											0, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
+		LOGGER.log(Level.INFO, "Setting up...");
+		int poolSize = 1; //Runtime.getRuntime().availableProcessors();
+		boardPool = new ThreadPoolExecutor(0, poolSize, 0, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
+		
 		solution = new Solution();
 		cancelled = new AtomicBoolean(); cancelled.set(false);
-		System.out.println("Done");
+		LOGGER.log(Level.INFO, "Done setting up");
 	}
 
 	@Override
@@ -39,28 +42,28 @@ public class EngineV1 implements Engine {
 		boardPool.submit(new SolveHandler(b));
 		
 		// Start parallel processing
-		System.out.println("Working...");
+		LOGGER.log(Level.INFO, "Working...");
 		
 		while (true) {
 			if (solution.getSolution() ==  null) {
 				// No solution found yet
 				// Has the solve been cancelled?
 				if (cancelled.get()){
-					System.out.println("Cancelled\n");
+					LOGGER.log(Level.INFO, "Cancelled");
 					boardPool.shutdownNow();
 					return null;
 				}
 				if (boardPool.getPoolSize() + boardPool.getQueue().size() == 0){
 					// TODO: This still need proper testing
 					// Pool has exhausted
-					System.out.println("No Solution Found\n");
+					LOGGER.log(Level.INFO, "No solution found");
 					boardPool.shutdownNow();
 					return null;
 				}
 			}
 			else {
 				// Solution found, 
-				System.out.println("Solution Found!\n");
+				LOGGER.log(Level.INFO, "Solution found!");
 				boardPool.shutdownNow();
 				return solution.getSolution();
 			}
@@ -81,15 +84,14 @@ public class EngineV1 implements Engine {
 		}
 	
 		@Override
-		public void run() {		
-			//System.out.println(board.toString()+"Pool size:"+boardPool.getPoolSize()+"Queue size:"+boardPool.getQueue().size());
-				// ^^^ Uncomment for desperate debugging
+		public void run() {
+			
 			// Check the board
 			Validity valid = board.isValid();
 			switch (valid) {
 			case INVALID:
 				// If invalid, log and terminate
-				System.out.println("WARNING: An invalid board was detected in the pool.");
+				LOGGER.log(Level.WARNING, "WARNING: An invalid board was detected in the pool.");
 				break;
 			case VALID_COMPLETE:
 				// If valid and complete, offer as solution to pool and terminate
@@ -113,6 +115,12 @@ public class EngineV1 implements Engine {
 						for (Board b : candidates) {
 							boardPool.submit(new SolveHandler(b));
 						}
+						LOGGER.log(Level.INFO, "Thread: {0}\nBoard:\n{1}\nExecuted: {2}\nPool size: {3}\nQueue size: {4}\n", new Object[]{
+								Thread.currentThread().getName(),
+								board.toString(),
+								s.getClass().getName(),
+								boardPool.getPoolSize(),
+								boardPool.getQueue().size()});
 						break;
 					}
 				}

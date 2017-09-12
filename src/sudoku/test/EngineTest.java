@@ -8,10 +8,7 @@ import org.junit.Test;
 
 import sudoku.IO.BasicTextInput;
 import sudoku.IO.SudokuInput.SudokuInputReadException;
-import sudoku.IO.SudokuOutput;
-import sudoku.IO.TerminalOutput;
 import sudoku.model.Board;
-import sudoku.model.Validity;
 import sudoku.model.Board.BoardCreationException;
 import sudoku.solve.*;
 
@@ -24,7 +21,7 @@ public class EngineTest {
 		assertNotNull(e);
 	}
 	
-	private void EngineHelper(String inputFile, String goldFile) throws BoardCreationException, SudokuInputReadException {
+	private void EngineHelper(String inputFile, String goldFile) throws BoardCreationException, SudokuInputReadException {	
 		Board b = new Board(new BasicTextInput(inputFile), 9);
 		Engine e = new EngineV1();
 		Board solution = e.solve(b);
