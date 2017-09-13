@@ -37,7 +37,7 @@ public class StrategyNakedPairs implements Strategy {
 					
 					if (otherCell.possibleValues().equals(pvs)){
 						// May've found a naked pair, now check they share 1+ cell groups						
-						if (c.numberOfSharedCellGroups(otherCell) >= 1) {
+						if (c.sharedCellGroups(otherCell).size() >= 1) {
 							
 							Object[] options = pvs.toArray();
 							switch (mode) {
@@ -47,14 +47,12 @@ public class StrategyNakedPairs implements Strategy {
 								boolean changes = false;
 								Cell[] pair = new Cell[] {c, otherCell};
 								
-								for (Cell cell : pair){
-									for (CellGroup cg: cell.getCellGroups()){
-										for (Cell cgCell : cg.getCells()){
-											if (cgCell == pair[0] || cgCell == pair[1])
-												continue;
-											if (cgCell.addPossibleValueExclusion((char)options[0]) || cgCell.addPossibleValueExclusion((char)options[1]))
-												changes = true;
-										}
+								for (CellGroup cg: c.sharedCellGroups(otherCell)){
+									for (Cell cgCell : cg.getCells()){
+										if (cgCell == pair[0] || cgCell == pair[1])
+											continue;
+										if (cgCell.addPossibleValueExclusion((char)options[0]) || cgCell.addPossibleValueExclusion((char)options[1]))
+											changes = true;
 									}
 								}
 								

@@ -84,11 +84,11 @@ public class Cell implements Serializable{
 	 * @param otherCell
 	 * @return
 	 */
-	public int numberOfSharedCellGroups(Cell otherCell){
+	public Set<CellGroup> sharedCellGroups(Cell otherCell){
 		Set<CellGroup> temp = new HashSet<CellGroup>();
 		temp.addAll(groups);
 		temp.retainAll(otherCell.getCellGroups());
-		return temp.size();
+		return temp;
 	}
 	
 }

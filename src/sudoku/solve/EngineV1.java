@@ -24,7 +24,7 @@ public class EngineV1 implements Engine {
 	public EngineV1() {		
 		// Setup pool
 		LOGGER.log(Level.INFO, "Setting up...");
-		int poolSize = 1; //Runtime.getRuntime().availableProcessors();
+		int poolSize = Runtime.getRuntime().availableProcessors();
 		boardPool = new ThreadPoolExecutor(0, poolSize, 0, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
 		
 		solution = new Solution();
