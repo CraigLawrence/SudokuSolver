@@ -3,6 +3,8 @@ package sudoku.test;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import org.junit.Test;
@@ -15,32 +17,64 @@ import sudoku.solve.*;
 
 public class StrategyTest {
 	
-	private void OnePossibleValueHelper(String inputFile, String goldFile) throws BoardCreationException, SudokuInputReadException {
-		Board b = new Board(new BasicTextInput(inputFile), 9);
-		Strategy s = new StrategyOnePossibleValue();
+	@Test
+	public void NakedSingleTest1() throws BoardCreationException, SudokuInputReadException {
+		NakedSetHelperBranching("test51OnePossValueTest.txt", 1, "test51OnePossValueTestGold.txt");
+	}
+	
+	@Test
+	public void NakedSingleTest2() throws BoardCreationException, SudokuInputReadException {
+		NakedSetHelperBranching("test52OnePossValueTest.txt", 1, "test52OnePossValueTestGold.txt");
+	}
+	
+	@Test
+	public void NakedPairTest1() throws BoardCreationException, SudokuInputReadException {
+		NakedSetHelperBranching("test71NakedPairTest.txt", 2, "test71NakedPairTestGold1.txt", "test71NakedPairTestGold2.txt");
+	}
+	
+	@Test
+	public void NakedPairTest2() throws BoardCreationException, SudokuInputReadException {
+		NakedSetHelperBranching("test72NakedPairTest.txt", 2);
+	}
+	
+	@Test
+	public void NakedPairTest3() throws BoardCreationException, SudokuInputReadException {
+		Board b = new Board(new BasicTextInput("test71NakedPairTest.txt"), 9);
+		Strategy s = new StrategyNakedSets(2, StrategyMode.EXCLUDING);
 		Set<Board> result = s.apply(b);
 		assertTrue(result.size() == 1);
+		result = s.apply(result.iterator().next());
+		assertTrue(result.size() == 0);
+	}
+	
+	private void NakedSetHelperBranching(String inputFile, int N, String... goldFiles) throws BoardCreationException, SudokuInputReadException {
+		Board b = new Board(new BasicTextInput(inputFile), 9);
+		Strategy s = new StrategyNakedSets(N, StrategyMode.BRANCHING);
+		Set<Board> result = s.apply(b);
+		assertTrue(result.size() == goldFiles.length);
 		
-		boolean CompareResult = false;
-		try {
-			CompareResult = TestUtils.boardCompare((Board) result.toArray()[0], goldFile);
-		} catch (IOException e) {
-			e.printStackTrace();
+		// Match each gold to a result
+		Set<String> unmatchedGolds = new HashSet<String>();
+		for (String i : goldFiles)
+			unmatchedGolds.add(i);
+		
+		for (Board b1 : result){
+			Iterator<String> i = unmatchedGolds.iterator();
+			boolean matched = false;
+			while (i.hasNext()){
+				try {
+					if (TestUtils.boardCompare(b1, i.next())){
+						i.remove();
+						matched = true;
+					}
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			assertTrue(matched);
 		}
-		
-		assertTrue(CompareResult);
 	}
-
-	@Test
-	public void OnePossibleValueTest1() throws BoardCreationException, SudokuInputReadException {
-		OnePossibleValueHelper("test51OnePossValueTest.txt", "test51OnePossValueTestGold.txt");
-	}
-	
-	@Test
-	public void OnePossibleValueTest2() throws BoardCreationException, SudokuInputReadException {
-		OnePossibleValueHelper("test52OnePossValueTest.txt", "test52OnePossValueTestGold.txt");
-	}
-	
 	
 	private void OnePossibleCellHelper(String inputFile, String goldFile) throws BoardCreationException, SudokuInputReadException {
 		Board b = new Board(new BasicTextInput(inputFile), 9);
@@ -62,46 +96,6 @@ public class StrategyTest {
 	public void OnePossibleCellTest1() throws BoardCreationException, SudokuInputReadException {
 		OnePossibleCellHelper("test61OnePossCellTest.txt", "test61OnePossCellTestGold.txt");
 	}
-	
-	
-	private void NakedPairHelperBranching(String inputFile, String goldFile1, String goldFile2) throws BoardCreationException, SudokuInputReadException {
-		Board b = new Board(new BasicTextInput(inputFile), 9);
-		Strategy s = new StrategyNakedPairs(StrategyMode.BRANCHING);
-		Set<Board> result = s.apply(b);
-		assertTrue(result.size() == 2);
-		
-		for (Board b1 : result){
-			try {
-				assertTrue(TestUtils.boardCompare(b1, goldFile1) || TestUtils.boardCompare(b1, goldFile2));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-	
-	@Test
-	public void NakedPairTest1() throws BoardCreationException, SudokuInputReadException {
-		NakedPairHelperBranching("test71NakedPairTest.txt", "test71NakedPairTestGold1.txt", "test71NakedPairTestGold2.txt");
-	}
-	
-	@Test
-	public void NakedPairTest2() throws BoardCreationException, SudokuInputReadException {
-		Board b = new Board(new BasicTextInput("test72NakedPairTest.txt"), 9);
-		Strategy s = new StrategyNakedPairs(StrategyMode.BRANCHING);
-		Set<Board> result = s.apply(b);
-		assertTrue(result.size() == 0);
-	}
-	
-	@Test
-	public void NakedPairTest3() throws BoardCreationException, SudokuInputReadException {
-		Board b = new Board(new BasicTextInput("test71NakedPairTest.txt"), 9);
-		Strategy s = new StrategyNakedPairs(StrategyMode.EXCLUDING);
-		Set<Board> result = s.apply(b);
-		assertTrue(result.size() == 1);
-		result = s.apply(result.iterator().next());
-		assertTrue(result.size() == 0);
-	}
-	
 	
 	@Test
 	public void ScatterShotTest1() throws BoardCreationException, SudokuInputReadException {

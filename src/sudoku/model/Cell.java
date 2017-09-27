@@ -80,14 +80,17 @@ public class Cell implements Serializable{
 	}
 	
 	/**
-	 * Checks the number of cell groups another cell has in common with this one
-	 * @param otherCell
+	 * Checks the number of cell groups a set of cells have in common
+	 * @param cells
 	 * @return
 	 */
-	public Set<CellGroup> sharedCellGroups(Cell otherCell){
+	public static Set<CellGroup> sharedCellGroups(Set<Cell> cells){
 		Set<CellGroup> temp = new HashSet<CellGroup>();
-		temp.addAll(groups);
-		temp.retainAll(otherCell.getCellGroups());
+		Iterator<Cell> i = cells.iterator();
+		
+		if (i.hasNext()) temp.addAll(i.next().getCellGroups());
+		while (i.hasNext())
+			temp.retainAll(i.next().getCellGroups());
 		return temp;
 	}
 	
