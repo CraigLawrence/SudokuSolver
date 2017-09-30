@@ -155,6 +155,31 @@ public class CellGroupTest {
 				missing.contains('9'));
 	}
 	
+	// Test possible cells
+	@Test
+	public void PossibleCellsTest() throws CellGroupException {
+		Set<Character> numberSet = new HashSet<Character>(Arrays.asList('1','2','3','4','5','6','7','8','9'));
+		CellGroup cg = new CellGroup(numberSet, '0');
+		
+		Cell cell1 = new Cell('1', true, cg); cg.addCell(cell1);
+		Cell cell2 = new Cell('2', true, cg); cg.addCell(cell2);
+		Cell cell3 = new Cell('3', true, cg); cg.addCell(cell3);
+		Cell cell4 = new Cell('4', true, cg); cg.addCell(cell4);
+		Cell cell5 = new Cell('0', true, cg); cg.addCell(cell5);
+		Cell cell6 = new Cell('0', true, cg); cg.addCell(cell6);
+		Cell cell7 = new Cell('0', true, cg); cg.addCell(cell7);
+		Cell cell8 = new Cell('0', true, cg); cg.addCell(cell8);
+		Cell cell9 = new Cell('0', true, cg); cg.addCell(cell9);
+		
+		Set<Cell> missing = cg.possibleCells('5');
+		assertTrue(missing.size() == 5 && 
+				missing.contains(cell5) &&
+				missing.contains(cell6) &&
+				missing.contains(cell7) &&
+				missing.contains(cell8) &&
+				missing.contains(cell9));
+	}
+	
 	
 	// Helper methods
 	private void createGroup(CellGroup cg, char... nums) throws CellGroupException {		

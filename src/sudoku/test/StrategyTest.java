@@ -19,22 +19,22 @@ public class StrategyTest {
 	
 	@Test
 	public void NakedSingleTest1() throws BoardCreationException, SudokuInputReadException {
-		NakedSetHelperBranching("test51OnePossValueTest.txt", 1, "test51OnePossValueTestGold.txt");
+		GoldCompareHelper("test51OnePossValueTest.txt", new StrategyNakedSets(1, StrategyMode.BRANCHING), "test51OnePossValueTestGold.txt");
 	}
 	
 	@Test
 	public void NakedSingleTest2() throws BoardCreationException, SudokuInputReadException {
-		NakedSetHelperBranching("test52OnePossValueTest.txt", 1, "test52OnePossValueTestGold.txt");
+		GoldCompareHelper("test52OnePossValueTest.txt", new StrategyNakedSets(1, StrategyMode.BRANCHING), "test52OnePossValueTestGold.txt");
 	}
 	
 	@Test
 	public void NakedPairTest1() throws BoardCreationException, SudokuInputReadException {
-		NakedSetHelperBranching("test71NakedPairTest.txt", 2, "test71NakedPairTestGold1.txt", "test71NakedPairTestGold2.txt");
+		GoldCompareHelper("test71NakedPairTest.txt", new StrategyNakedSets(2, StrategyMode.BRANCHING), "test71NakedPairTestGold1.txt", "test71NakedPairTestGold2.txt");
 	}
 	
 	@Test
 	public void NakedPairTest2() throws BoardCreationException, SudokuInputReadException {
-		NakedSetHelperBranching("test72NakedPairTest.txt", 2);
+		GoldCompareHelper("test72NakedPairTest.txt", new StrategyNakedSets(2, StrategyMode.BRANCHING));
 	}
 	
 	@Test
@@ -47,9 +47,31 @@ public class StrategyTest {
 		assertTrue(result.size() == 0);
 	}
 	
-	private void NakedSetHelperBranching(String inputFile, int N, String... goldFiles) throws BoardCreationException, SudokuInputReadException {
+	// TODO: better testing of naked excluding
+	// TODO: test naked triples
+
+	@Test
+	public void HiddenSingleTest1() throws BoardCreationException, SudokuInputReadException {
+		GoldCompareHelper("test61OnePossCellTest.txt", new StrategyHiddenSets(1, StrategyMode.BRANCHING), "test61OnePossCellTestGold.txt");
+	}
+	
+	// TODO: test hidden pairs
+	// TODO: test hidden excluding
+	
+	@Test
+	public void ScatterShotTest1() throws BoardCreationException, SudokuInputReadException {
+		Board b = new Board(new BasicTextInput("test1Blank.txt"), 9);
+		Strategy s = new StrategyScatterShot();
+		Set<Board> result = s.apply(b);
+		
+		assertTrue(result.size() == 9);
+		for (Board b2 : result) {
+			assertTrue(b2.isValid() == Validity.VALID_COMPLETE || b2.isValid() == Validity.VALID_INCOMPLETE);
+		}
+	}
+	
+	private void GoldCompareHelper(String inputFile, Strategy s, String... goldFiles) throws BoardCreationException, SudokuInputReadException {
 		Board b = new Board(new BasicTextInput(inputFile), 9);
-		Strategy s = new StrategyNakedSets(N, StrategyMode.BRANCHING);
 		Set<Board> result = s.apply(b);
 		assertTrue(result.size() == goldFiles.length);
 		
@@ -73,39 +95,6 @@ public class StrategyTest {
 				}
 			}
 			assertTrue(matched);
-		}
-	}
-	
-	private void OnePossibleCellHelper(String inputFile, String goldFile) throws BoardCreationException, SudokuInputReadException {
-		Board b = new Board(new BasicTextInput(inputFile), 9);
-		Strategy s = new StrategyOnePossibleCellInGroup();
-		Set<Board> result = s.apply(b);
-		assertTrue(result.size() == 1);
-		
-		boolean CompareResult = false;
-		try {
-			CompareResult = TestUtils.boardCompare((Board) result.toArray()[0], goldFile);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		assertTrue(CompareResult);
-	}
-
-	@Test
-	public void OnePossibleCellTest1() throws BoardCreationException, SudokuInputReadException {
-		OnePossibleCellHelper("test61OnePossCellTest.txt", "test61OnePossCellTestGold.txt");
-	}
-	
-	@Test
-	public void ScatterShotTest1() throws BoardCreationException, SudokuInputReadException {
-		Board b = new Board(new BasicTextInput("test1Blank.txt"), 9);
-		Strategy s = new StrategyScatterShot();
-		Set<Board> result = s.apply(b);
-		
-		assertTrue(result.size() == 9);
-		for (Board b2 : result) {
-			assertTrue(b2.isValid() == Validity.VALID_COMPLETE || b2.isValid() == Validity.VALID_INCOMPLETE);
 		}
 	}
 	

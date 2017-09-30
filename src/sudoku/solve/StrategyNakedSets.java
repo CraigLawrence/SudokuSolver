@@ -53,11 +53,11 @@ public class StrategyNakedSets implements Strategy {
 					for (Entry<Set<Cell>, Set<Character>> e : candidates.entrySet())
 					{
 						cells = e.getKey(); values = e.getValue();
-						// TODO: Test addition of c's possible Values
+						// Test addition of c's possible Values
 						Set<Character> tempCopy = new HashSet<Character>(values);
 						tempCopy.addAll(possibleValues);
 						
-						// TODO: If possible add it
+						// If possible add it
 						if (tempCopy.size() <= N){
 							cells.add(c);
 							e.setValue(tempCopy);
@@ -71,8 +71,7 @@ public class StrategyNakedSets implements Strategy {
 							nakedSetValues = values;
 							break FIND_A_NAKED_SET;
 						}
-					}
-										
+					}					
 				}
 			}
 		}
@@ -84,7 +83,6 @@ public class StrategyNakedSets implements Strategy {
 			{
 			case BRANCHING:
 				
-				Iterator<Cell> i = nakedSetCells.iterator(); 
 				// Use recursion to add a Board with every possible combination of naked set values to the pool
 				BranchHelper (0, nakedSetCells.toArray(), branches, b);
 				

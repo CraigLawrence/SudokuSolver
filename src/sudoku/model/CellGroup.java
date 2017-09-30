@@ -93,4 +93,17 @@ public class CellGroup implements Serializable {
 		return o.toString();
 	}
 	
+	public Set<Cell> possibleCells(char v) {
+
+		Set<Cell> possible = new HashSet<Cell>();
+		for (Cell c : cells){
+			if (c.getValue() == emptyValue && c.possibleValues().contains(v)){
+				possible.add(c);
+			}
+		}
+		
+		return possible;
+	}
+	
+	
 }
