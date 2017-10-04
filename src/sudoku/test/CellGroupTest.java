@@ -9,7 +9,6 @@ import java.util.Set;
 
 import org.junit.Test;
 
-import sudoku.IO.SudokuInput.SudokuInputReadException;
 import sudoku.model.Cell;
 import sudoku.model.CellGroup;
 import sudoku.model.CellGroup.CellGroupException;

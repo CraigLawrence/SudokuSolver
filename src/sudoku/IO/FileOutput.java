@@ -3,12 +3,7 @@ package sudoku.IO;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-
 import sudoku.model.Board;
-import sudoku.model.Cell;
-import sudoku.model.CellGroup;
 
 public class FileOutput implements SudokuOutput {
 	
