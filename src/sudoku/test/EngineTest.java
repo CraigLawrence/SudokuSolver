@@ -39,7 +39,7 @@ public class EngineTest {
 	@Test
 	public void FileTest5() throws BoardCreationException, SudokuInputReadException {
 		System.out.println("---------FileTest5-----------");
-		EngineHelper("test51OnePossValueTest.txt", "test51OnePossValueTestGold.txt");
+		EngineHelper("test51NakedSingleTest.txt", "test51NakedSingleTestGold.txt");
 	}
 	
 	@Test

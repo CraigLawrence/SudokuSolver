@@ -131,6 +131,7 @@ public class StrategyNakedSets implements Strategy {
 				BranchHelper (i+1, cells, branches, b);
 			}
 			
+			c.changeValue(b.getEmptyValue()); // Reset this board so future calls to possibleValues works			
 		}	
 	}
 

@@ -84,7 +84,7 @@ public class BoardTest {
 	
 	@Test
 	public void fractionFilledTest1() throws BoardCreationException, SudokuInputReadException{
-		Board b = new Board(new BasicTextInput("test51OnePossValueTest.txt"), 9);
+		Board b = new Board(new BasicTextInput("test51NakedSingleTest.txt"), 9);
 		assertTrue(b.getFractionComplete() == 80.0/81.0);
 	}
 	

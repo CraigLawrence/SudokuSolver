@@ -18,27 +18,32 @@ import sudoku.solve.*;
 public class StrategyTest {
 	
 	@Test
-	public void NakedSingleTest1() throws BoardCreationException, SudokuInputReadException {
-		GoldCompareHelper("test51OnePossValueTest.txt", new StrategyNakedSets(1, StrategyMode.BRANCHING), "test51OnePossValueTestGold.txt");
+	public void NakedSingleBranchTest1() throws BoardCreationException, SudokuInputReadException {
+		GoldCompareHelper("test51NakedSingleTest.txt", new StrategyNakedSets(1, StrategyMode.BRANCHING), "test51NakedSingleTestGold.txt");
 	}
 	
 	@Test
-	public void NakedSingleTest2() throws BoardCreationException, SudokuInputReadException {
-		GoldCompareHelper("test52OnePossValueTest.txt", new StrategyNakedSets(1, StrategyMode.BRANCHING), "test52OnePossValueTestGold.txt");
+	public void NakedSingleBranchTest2() throws BoardCreationException, SudokuInputReadException {
+		GoldCompareHelper("test52NakedSingleTest.txt", new StrategyNakedSets(1, StrategyMode.BRANCHING), "test52NakedSingleTestGold.txt");
 	}
 	
 	@Test
-	public void NakedPairTest1() throws BoardCreationException, SudokuInputReadException {
+	public void NakedPairBranchTest1() throws BoardCreationException, SudokuInputReadException {
 		GoldCompareHelper("test71NakedPairTest.txt", new StrategyNakedSets(2, StrategyMode.BRANCHING), "test71NakedPairTestGold1.txt", "test71NakedPairTestGold2.txt");
 	}
 	
 	@Test
-	public void NakedPairTest2() throws BoardCreationException, SudokuInputReadException {
+	public void NakedPairBranchTest2() throws BoardCreationException, SudokuInputReadException {
 		GoldCompareHelper("test72NakedPairTest.txt", new StrategyNakedSets(2, StrategyMode.BRANCHING));
 	}
 	
 	@Test
-	public void NakedPairTest3() throws BoardCreationException, SudokuInputReadException {
+	public void NakedTripleBranchTest1() throws BoardCreationException, SudokuInputReadException {
+		GoldCompareHelper("test75NakedTripleTest.txt", new StrategyNakedSets(3, StrategyMode.BRANCHING), "test75NakedTripleTestGold1.txt", "test75NakedTripleTestGold2.txt", "test75NakedTripleTestGold3.txt");
+	}
+	
+	@Test
+	public void NakedPairExcludeTest1() throws BoardCreationException, SudokuInputReadException {
 		Board b = new Board(new BasicTextInput("test71NakedPairTest.txt"), 9);
 		Strategy s = new StrategyNakedSets(2, StrategyMode.EXCLUDING);
 		Set<Board> result = s.apply(b);
@@ -51,8 +56,8 @@ public class StrategyTest {
 	// TODO: test naked triples
 
 	@Test
-	public void HiddenSingleTest1() throws BoardCreationException, SudokuInputReadException {
-		GoldCompareHelper("test61OnePossCellTest.txt", new StrategyHiddenSets(1, StrategyMode.BRANCHING), "test61OnePossCellTestGold.txt");
+	public void HiddenSingleBranchTest1() throws BoardCreationException, SudokuInputReadException {
+		GoldCompareHelper("test61HiddenSingleTest.txt", new StrategyHiddenSets(1, StrategyMode.BRANCHING), "test61HiddenSingleTestGold.txt");
 	}
 	
 	// TODO: test hidden pairs
