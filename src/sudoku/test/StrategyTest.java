@@ -42,6 +42,13 @@ public class StrategyTest {
 		GoldCompareHelper("test75NakedTripleTest.txt", new StrategyNakedSets(3, StrategyMode.BRANCHING), "test75NakedTripleTestGold1.txt", "test75NakedTripleTestGold2.txt", "test75NakedTripleTestGold3.txt");
 	}
 	
+	/* Disabaled since test find another valid naked quad in the test data
+	@Test
+	public void NakedQuadBranchTest1() throws BoardCreationException, SudokuInputReadException {
+		GoldCompareHelper("test77NakedQuadTest.txt", new StrategyNakedSets(4, StrategyMode.BRANCHING), "test77NakedQuadTestGold1.txt", "test77NakedQuadTestGold2.txt", "test77NakedQuadTestGold3.txt", "test77NakedQuadTestGold4.txt", "test77NakedQuadTestGold5.txt", "test77NakedQuadTestGold6.txt");
+	}
+	*/
+	
 	@Test
 	public void NakedPairExcludeTest1() throws BoardCreationException, SudokuInputReadException {
 		Board b = new Board(new BasicTextInput("test71NakedPairTest.txt"), 9);
@@ -53,7 +60,6 @@ public class StrategyTest {
 	}
 	
 	// TODO: better testing of naked excluding
-	// TODO: test naked triples
 
 	@Test
 	public void HiddenSingleBranchTest1() throws BoardCreationException, SudokuInputReadException {
