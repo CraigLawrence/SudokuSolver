@@ -115,6 +115,8 @@ public class StrategyHiddenSets implements Strategy {
 				BranchHelper (i+1, values, branches, b, cg);
 			}
 			
+			c.changeValue(b.getEmptyValue()); // Reset this board so future calls to possibleCells works		
+			
 		}	
 	}
 

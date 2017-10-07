@@ -66,7 +66,11 @@ public class StrategyTest {
 		GoldCompareHelper("test61HiddenSingleTest.txt", new StrategyHiddenSets(1, StrategyMode.BRANCHING), "test61HiddenSingleTestGold.txt");
 	}
 	
-	// TODO: test hidden pairs
+	@Test
+	public void HiddenPairBranchTest1() throws BoardCreationException, SudokuInputReadException {
+		GoldCompareHelper("test64HiddenPairTest.txt", new StrategyHiddenSets(2, StrategyMode.BRANCHING), "test64HiddenPairTestGold1.txt", "test64HiddenPairTestGold2.txt");
+	}
+	
 	// TODO: test hidden excluding
 	
 	@Test
