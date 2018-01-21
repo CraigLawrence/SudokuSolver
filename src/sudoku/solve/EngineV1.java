@@ -68,8 +68,6 @@ public class EngineV1 implements Engine {
 				return solution.getSolution();
 			}
 		}
-		
-		// TODO: consider handling case where cancel is called really quickly after starting. 
 	}
 	
 	@Override

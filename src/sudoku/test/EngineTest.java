@@ -64,6 +64,7 @@ public class EngineTest {
 			@Override
 			public void run() {
 				Board solution = e.solve(b);
+				// The original thread will call cancel, causing e.solve to return null
 				assertNull(solution);
 			}
 		}
