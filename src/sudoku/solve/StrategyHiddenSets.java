@@ -89,7 +89,37 @@ public class StrategyHiddenSets implements Strategy {
 						
 						break;				
 					case EXCLUDING:
-						//TODO:
+
+						// Only continue this branch if an exclusion list is grown.
+						boolean changes = false;
+
+						// Exclude the possible values of the naked set from other cells that share groups.
+						// Note: This will only possibly change anything if there is >1 shared cell groups given
+						//	the conditions for a hidden set.
+						for (CellGroup cg: Cell.sharedCellGroups(hiddenSetCells)){
+							for (Cell cgCell : cg.getCells()){
+								if (hiddenSetCells.contains(cgCell))
+									continue;
+
+								for (char v : hiddenSetValues){
+									if (cgCell.addPossibleValueExclusion(v))
+										changes = true;
+								}
+							}
+						}
+
+						// Exclude all other values from the N selected cells (which would make this a naked set)
+						for (Cell c : hiddenSetCells){
+							for (char n : b.getNumberSet()) {
+								// If n is an 'other' value, then check if it can be added
+								if (!hiddenSetValues.contains(n) && c.addPossibleValueExclusion(n))
+									changes = true;
+							}
+						}
+
+						// Add to pool if the solve has been advanced
+						if (changes)
+							branches.add(b);
 						
 						break;
 					default:

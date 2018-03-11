@@ -99,10 +99,10 @@ public class EngineV1 implements Engine {
 				// If valid and incomplete, start executing strategies
 				Set<Board> candidates = null;
 				List<Strategy> strategies = new ArrayList<Strategy>();
-				// TODO: add more strategies										// Max Branches
-				strategies.add(new StrategyNakedSets(1, StrategyMode.BRANCHING));	// 1
+				// TODO: add more strategies											// Max Branches
+				strategies.add(new StrategyNakedSets(1, StrategyMode.BRANCHING));		// 1
 				strategies.add(new StrategyHiddenSets(1, StrategyMode.BRANCHING));	// 1
-				strategies.add(new StrategyNakedSets(2, StrategyMode.EXCLUDING));	// 1
+				strategies.add(new StrategyNakedSets(2, StrategyMode.EXCLUDING));		// 1
 				strategies.add(new StrategyNakedSets(2, StrategyMode.BRANCHING)); 	// 2
 				strategies.add(new StrategyScatterShot());
 				
