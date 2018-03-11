@@ -1,6 +1,7 @@
 package sudoku.solve;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -20,7 +21,8 @@ public class EngineV1 implements Engine {
 	private final ThreadPoolExecutor boardPool;
 	private final Solution solution;
 	private final AtomicBoolean cancelled;
-	
+	private final Date startTime;
+
 	public EngineV1() {		
 		// Setup pool
 		LOGGER.log(Level.INFO, "Setting up...");
@@ -30,6 +32,8 @@ public class EngineV1 implements Engine {
 		solution = new Solution();
 		cancelled = new AtomicBoolean(); cancelled.set(false);
 		LOGGER.log(Level.INFO, "Done setting up");
+
+		startTime = new Date();
 	}
 
 	@Override
@@ -62,8 +66,9 @@ public class EngineV1 implements Engine {
 				}
 			}
 			else {
-				// Solution found, 
-				LOGGER.log(Level.INFO, "Solution found!");
+				// Solution found
+				long runTime = (new Date()).getTime() - startTime.getTime();
+				LOGGER.log(Level.INFO, "Solution found in {0}ms!", new Object[]{runTime});
 				boardPool.shutdownNow();
 				return solution.getSolution();
 			}
