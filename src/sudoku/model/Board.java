@@ -29,6 +29,14 @@ public class Board implements Serializable {
 	private Set<Character> numberSet;
 	private char emptyValue;
 	
+	@Override
+    public boolean equals(Object o) {
+		if (o == this) return true;
+		if (!(o instanceof Board)) return false;
+		Board other = (Board) o;
+		return this.toString().equals(other.toString());
+	}
+
 	/*
 	 * Constructors
 	 */	

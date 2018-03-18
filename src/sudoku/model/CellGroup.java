@@ -17,6 +17,14 @@ public class CellGroup implements Serializable {
 	private Set<Character> numberSet;
 	private char emptyValue;
 	
+	@Override
+    public boolean equals(Object o) {
+		if (o == this) return true;
+		if (!(o instanceof CellGroup)) return false;
+		CellGroup other = (CellGroup) o;
+		return this.toString().equals(other.toString());
+	}
+
 	/*
 	 * Constructor
 	 */

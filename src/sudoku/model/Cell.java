@@ -18,6 +18,14 @@ public class Cell implements Serializable{
 	private Set<CellGroup> groups;
 	private Set<Character> possibleValueExclusions;
 	
+	@Override
+    public boolean equals(Object o) {
+		if (o == this) return true;
+		if (!(o instanceof Cell)) return false;
+		Cell other = (Cell) o;
+		return this.toString().equals(other.toString());
+	}
+
 	/*
 	 * Constructor
 	 */

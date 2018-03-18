@@ -25,13 +25,9 @@ public class EngineTest {
 		Board b = new Board(new BasicTextInput(inputFile), 9);
 		Engine e = new EngineV1();
 		Board solution = e.solve(b);
+		Board goldBoard = new Board(new BasicTextInput(goldFile), 9);
 		
-		boolean CompareResult = false;
-		try {
-			CompareResult = TestUtils.boardCompare(solution, goldFile);
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+		boolean CompareResult = solution.equals(goldBoard);
 		
 		assertTrue(CompareResult);
 	}

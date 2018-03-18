@@ -96,22 +96,17 @@ public class StrategyTest {
 		assertTrue(result.size() == goldFiles.length);
 		
 		// Match each gold to a result
-		Set<String> unmatchedGolds = new HashSet<String>();
+		Set<Board> unmatchedGolds = new HashSet<Board>();
 		for (String i : goldFiles)
-			unmatchedGolds.add(i);
+			unmatchedGolds.add(new Board(new BasicTextInput(i), 9));
 		
 		for (Board b1 : result){
-			Iterator<String> i = unmatchedGolds.iterator();
+			Iterator<Board> i = unmatchedGolds.iterator();
 			boolean matched = false;
 			while (i.hasNext()){
-				try {
-					if (TestUtils.boardCompare(b1, i.next())){
-						i.remove();
-						matched = true;
-					}
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				if (b1.equals(i.next())){
+					i.remove();
+					matched = true;
 				}
 			}
 			assertTrue(matched);
