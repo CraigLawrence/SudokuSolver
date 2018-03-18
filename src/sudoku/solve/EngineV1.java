@@ -49,28 +49,22 @@ public class EngineV1 implements Engine {
 		LOGGER.log(Level.INFO, "Working...");
 		
 		while (true) {
-			if (solution.getSolution() ==  null) {
-				// No solution found yet
-				// Has the solve been cancelled?
-				if (cancelled.get()){
-					LOGGER.log(Level.INFO, "Cancelled");
-					boardPool.shutdownNow();
-					throw new EngineCancelledException("Cancelled");
-				}
-				if (boardPool.getPoolSize() + boardPool.getQueue().size() == 0){
-					// TODO: Race condition!: This sometimes throws when a solution is found!
-					// Pool has exhausted
-					LOGGER.log(Level.INFO, "No solution found");
-					boardPool.shutdownNow();
-					throw new EngineExhaustedException("No solution found");
-				}
-			}
-			else {
+			if (solution.getSolution() != null) {
 				// Solution found
 				long runTime = (new Date()).getTime() - startTime.getTime();
 				LOGGER.log(Level.INFO, "Solution found in {0}ms!", new Object[]{runTime});
 				boardPool.shutdownNow();
 				return solution.getSolution();
+			} else if (cancelled.get()) {
+				// Cancel initiated
+				LOGGER.log(Level.INFO, "Cancelled");
+				boardPool.shutdownNow();
+				throw new EngineCancelledException("Cancelled");
+			} else if ((boardPool.getPoolSize() + boardPool.getQueue().size() == 0) && solution.getSolution() == null) {
+				// Pool has exhausted
+				LOGGER.log(Level.INFO, "No solution found");
+				boardPool.shutdownNow();
+				throw new EngineExhaustedException("No solution found");
 			}
 		}
 	}
