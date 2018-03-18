@@ -2,7 +2,6 @@ package sudoku.test;
 
 import static org.junit.Assert.*;
 
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;

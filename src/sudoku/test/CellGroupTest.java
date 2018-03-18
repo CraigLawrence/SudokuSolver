@@ -32,10 +32,10 @@ public class CellGroupTest {
 	
 	@Test
 	public void nullCreationTest() {
-		CellGroup cg = null;
 		Exception e = null;
 		try {
-			cg = new CellGroup(null, '0');
+			@SuppressWarnings("unused")
+			CellGroup cg = new CellGroup(null, '0');
 		} catch (Exception e1) {
 			e = e1;
 		}

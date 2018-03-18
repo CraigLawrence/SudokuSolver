@@ -32,10 +32,10 @@ public class IOTest {
 	
 	@Test
 	public void failedFileOpen() {
-		SudokuInput si = null;
 		Exception ee = null;
 		try {
-			si = new BasicTextInput("fakeFile.txt");
+			@SuppressWarnings("unused")
+			SudokuInput si = new BasicTextInput("fakeFile.txt");
 		} catch (SudokuInputReadException e) {
 			ee = e;
 		}

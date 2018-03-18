@@ -2,8 +2,6 @@ package sudoku.test;
 
 import static org.junit.Assert.*;
 
-import java.io.IOException;
-
 import org.junit.Test;
 
 import sudoku.IO.BasicTextInput;
@@ -61,15 +59,14 @@ public class EngineTest {
 		class xx extends Thread {
 			@Override
 			public void run() {
-				boolean expectedException = false;
+				Exception ee = null;
 				try {
+					@SuppressWarnings("unused")
 					Board solution = e.solve(b);
-				} catch (EngineExhaustedException e) {
-					e.printStackTrace();
-				} catch (EngineCancelledException e) {
-					expectedException = true;
+				} catch (Exception e) {
+					ee = e;
 				}
-				assertTrue(expectedException);
+				assertTrue(ee instanceof EngineCancelledException);
 			}
 		}
 		new xx().start();

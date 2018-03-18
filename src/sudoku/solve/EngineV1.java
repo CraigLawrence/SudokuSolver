@@ -14,7 +14,6 @@ import java.util.logging.Logger;
 
 import sudoku.model.Board;
 import sudoku.model.Validity;
-import sudoku.model.Board.BoardCreationException;
 
 public class EngineV1 implements Engine {
 	private static final Logger LOGGER = Logger.getLogger( EngineV1.class.getName() );
