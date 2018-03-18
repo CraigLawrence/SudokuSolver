@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 
 import sudoku.model.Board;
 import sudoku.model.Validity;
+import sudoku.model.Board.BoardCreationException;
 
 public class EngineV1 implements Engine {
 	private static final Logger LOGGER = Logger.getLogger( EngineV1.class.getName() );
@@ -37,7 +38,7 @@ public class EngineV1 implements Engine {
 	}
 
 	@Override
-	public Board solve(Board b) {
+	public Board solve(Board b) throws EngineExhaustedException, EngineCancelledException {
 		
 		// Setup engine
 		solution.startSolving();		
@@ -55,14 +56,14 @@ public class EngineV1 implements Engine {
 				if (cancelled.get()){
 					LOGGER.log(Level.INFO, "Cancelled");
 					boardPool.shutdownNow();
-					return null;
+					throw new EngineCancelledException("Cancelled");
 				}
 				if (boardPool.getPoolSize() + boardPool.getQueue().size() == 0){
-					// TODO: This still need proper testing
+					// TODO: Race condition!: This sometimes throws when a solution is found!
 					// Pool has exhausted
 					LOGGER.log(Level.INFO, "No solution found");
 					boardPool.shutdownNow();
-					return null;
+					throw new EngineExhaustedException("No solution found");
 				}
 			}
 			else {
