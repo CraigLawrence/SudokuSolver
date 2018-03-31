@@ -8,6 +8,7 @@ import sudoku.IO.BasicTextInput;
 import sudoku.IO.SudokuInput.SudokuInputReadException;
 import sudoku.model.Board;
 import sudoku.model.Board.BoardCreationException;
+import sudoku.model.Validity;
 import sudoku.solve.*;
 import sudoku.solve.Engine.EngineCancelledException;
 import sudoku.solve.Engine.EngineExhaustedException;
@@ -52,6 +53,12 @@ public class EngineTest {
 	}
 
 	@Test
+	public void FileTest0General3_Hard() throws BoardCreationException, SudokuInputReadException, EngineExhaustedException, EngineCancelledException {
+		System.out.println("---------FileTest0General3_Hard-----------");
+		EngineHelper("test0General3.txt", "test0General3Gold.txt");
+	}
+
+	@Test
 	public void CancelTest() throws BoardCreationException, SudokuInputReadException, InterruptedException {
 		System.out.println("---------CancelTest-----------");
 		final Engine e = new EngineV1();
@@ -73,9 +80,9 @@ public class EngineTest {
 		e.cancel();
 		Thread.sleep(500); // Give other thread a moment to do assert and terminate
 	}
-	
+
 	/*@Test
-	public void BlankTest() throws BoardCreationException, SudokuInputReadException {
+	public void BlankTest() throws BoardCreationException, SudokuInputReadException, EngineExhaustedException, EngineCancelledException {
 		Board b = new Board(new BasicTextInput("test1Blank.txt"), 9);
 		Engine e = new EngineV1();
 		Board solution = e.solve(b);
