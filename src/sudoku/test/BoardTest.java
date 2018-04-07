@@ -93,6 +93,30 @@ public class BoardTest {
 		Board b = new Board(new BasicTextInput("test0General1.txt"), 9);
 		assertTrue(b.getFractionComplete() == 36.0/81.0);
 	}
+
+	// Comparison Tests
+	@Test
+	public void comparisonTest1() throws BoardCreationException, SudokuInputReadException {
+		Board b1 = new Board(new BasicTextInput("test1Blank.txt"), 9);
+		Board b2 = new Board(new BasicTextInput("test1Blank.txt"), 9);
+		assertEquals(0, b1.compareTo(b2));
+	}
+
+	@Test
+	public void comparisonTest2() throws BoardCreationException, SudokuInputReadException {
+		Board b1 = new Board(new BasicTextInput("test0General1.txt"), 9);
+		Board b2 = new Board(new BasicTextInput("test51NakedSingleTest.txt"), 9);
+		int expected = (int) (( (36.0/81.0) - (80.0/81.0) )*100);
+		assertEquals(expected, b1.compareTo(b2));
+	}
+
+	@Test
+	public void comparisonTest3() throws BoardCreationException, SudokuInputReadException {
+		Board b1 = new Board(new BasicTextInput("test0General1.txt"), 9);
+		Board b2 = new Board(new BasicTextInput("test51NakedSingleTest.txt"), 9);
+		int expected = (int) (( (80.0/81.0) - (36.0/81.0) )*100);
+		assertEquals(expected, b2.compareTo(b1));
+	}
 	
 	// Exception Tests
 	// TODO

@@ -18,7 +18,7 @@ import sudoku.IO.SudokuInput.SudokuInputReadException;
 import sudoku.model.CellGroup.CellGroupException;
 
 @SuppressWarnings("serial")
-public class Board implements Serializable {
+public class Board implements Serializable, Comparable<Board> {
 	
 	/*
 	 * Attributes
@@ -169,6 +169,11 @@ public class Board implements Serializable {
 		return o.toString();
 	}
 	
+	@Override
+	public int compareTo(Board arg0) {
+		return (int) ((this.getFractionComplete() - arg0.getFractionComplete()) * 100);
+	}
+
 	/*
 	 * Exceptions
 	 */
