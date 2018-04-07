@@ -81,13 +81,13 @@ public class EngineTest {
 		Thread.sleep(500); // Give other thread a moment to do assert and terminate
 	}
 
-	/*@Test
+	@Test
 	public void BlankTest() throws BoardCreationException, SudokuInputReadException, EngineExhaustedException, EngineCancelledException {
 		Board b = new Board(new BasicTextInput("test1Blank.txt"), 9);
 		Engine e = new EngineV1();
 		Board solution = e.solve(b);
 		
 		assertTrue(solution.isValid() == Validity.VALID_COMPLETE);
-	}*/
+	}
 
 }

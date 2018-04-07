@@ -170,6 +170,7 @@ public class Board implements Serializable, Comparable<Board> {
 	}
 	
 	@Override
+	// More complete board is greater than less complete board
 	public int compareTo(Board arg0) {
 		return (int) ((this.getFractionComplete() - arg0.getFractionComplete()) * 100);
 	}

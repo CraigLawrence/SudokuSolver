@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -27,8 +27,8 @@ public class EngineV1 implements Engine {
 		// Setup pool
 		LOGGER.log(Level.INFO, "Setting up...");
 		int poolSize = Runtime.getRuntime().availableProcessors();
-		boardPool = new ThreadPoolExecutor(0, poolSize, 0, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
-		
+		boardPool = new ThreadPoolExecutor(0, poolSize, 0, TimeUnit.SECONDS, new PriorityBlockingQueue<Runnable>());
+
 		solution = new Solution();
 		cancelled = new AtomicBoolean(); cancelled.set(false);
 		LOGGER.log(Level.INFO, "Done setting up");
@@ -43,7 +43,7 @@ public class EngineV1 implements Engine {
 		solution.startSolving();		
 
 		// Seed with starting board
-		boardPool.submit(new SolveHandler(b));
+		boardPool.execute(new SolveHandler(b));
 		
 		// Start parallel processing
 		LOGGER.log(Level.INFO, "Working...");
@@ -74,7 +74,7 @@ public class EngineV1 implements Engine {
 		cancelled.set(true);
 	}
 	
-	class SolveHandler implements Runnable {
+	class SolveHandler implements Runnable, Comparable<SolveHandler> {
 		private final Board board;
 		SolveHandler(Board board) {
 			this.board = board;
@@ -110,7 +110,7 @@ public class EngineV1 implements Engine {
 					// If one succeeds with 1 or more possible changes, add all to pool and terminate
 					if (candidates.size() > 0) {
 						for (Board b : candidates) {
-							boardPool.submit(new SolveHandler(b));
+							boardPool.execute(new SolveHandler(b));
 						}
 						LOGGER.log(Level.INFO, "Thread: {0}\nBoard:\n{1}\nExecuted: {2}\nPool size: {3}\nQueue size: {4}\n", new Object[]{
 								Thread.currentThread().getName(),
@@ -126,6 +126,15 @@ public class EngineV1 implements Engine {
 			default:
 				break;
 			}		
+		}
+
+		@Override
+		/* The PriorityBlockingQueue orders items from 'least' to 'most' value.
+		 * Since I want the most complete boards processed with highest priority the natural
+		 * ordering provided by the Board class needs to be reversed.
+		 */
+		public int compareTo(SolveHandler arg0) {
+			return arg0.board.compareTo(this.board);
 		}
 		
 	}
