@@ -5,12 +5,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.PriorityBlockingQueue;
+import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 
 import sudoku.model.Board;
 import sudoku.model.Validity;
@@ -110,7 +112,18 @@ public class EngineV1 implements Engine {
 					// If one succeeds with 1 or more possible changes, add all to pool and terminate
 					if (candidates.size() > 0) {
 						for (Board b : candidates) {
-							boardPool.execute(new SolveHandler(b));
+							try {
+								boardPool.execute(new SolveHandler(b));
+							}
+							catch (RejectedExecutionException e) {
+								if (!Pattern.matches("^.*Shutting down.*$", e.getMessage())){
+									/* This may come up if a solution is found (and the pool is shutting down)
+									 * while this thread is still solving.
+									 * So only throw if something else has gone wrong.
+									 */
+									throw e;
+								}
+							}
 						}
 						LOGGER.log(Level.INFO, "Thread: {0}\nBoard:\n{1}\nExecuted: {2}\nPool size: {3}\nQueue size: {4}\n", new Object[]{
 								Thread.currentThread().getName(),
