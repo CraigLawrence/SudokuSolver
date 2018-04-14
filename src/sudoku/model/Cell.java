@@ -102,4 +102,11 @@ public class Cell implements Serializable{
 		return temp;
 	}
 	
+	public static Set<CellGroup> sharedCellGroups(Cell...c){
+		Set<Cell> cells = new HashSet<Cell>();
+		for (Cell c1 : c)
+			cells.add(c1);
+		return sharedCellGroups(cells);
+	}
+
 }
