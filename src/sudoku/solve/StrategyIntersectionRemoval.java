@@ -43,7 +43,6 @@ public class StrategyIntersectionRemoval implements Strategy {
 					Set<CellGroup> sharedGroups = Cell.sharedCellGroups(possibleLocations);
 					if (sharedGroups.size() > 1)
 					{
-						// TODO: Store this result
 						pointerCells = possibleLocations;
 						pointerValue = v;
 						intersectingGroups = sharedGroups;
@@ -59,10 +58,20 @@ public class StrategyIntersectionRemoval implements Strategy {
 			switch (mode)
 			{
 			case BRANCHING:
-				// TODO
+				// TODO: Test
+				for (Cell c : pointerCells) {
+					c.changeValue(pointerValue);
+					branches.add(b.copyBoard());
+				}
 				break;				
 			case EXCLUDING:
-				// TODO
+				// TODO: Test
+				for (CellGroup cg : intersectingGroups) {
+					for (Cell c : cg.getCells()) {
+						if (pointerCells.contains(c)) continue;
+						c.addPossibleValueExclusion(pointerValue);
+					}
+				}
 				break;
 			default:
 				break;
